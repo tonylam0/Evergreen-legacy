@@ -15,20 +15,33 @@ YOUTUBE_API_KEY = os.getenv('YOUTUBE_API_KEY')
 # Safe way to handle
 DEBUG = os.getenv('DEBUG') == 'TRUE'
 
-ALLOWED_HOSTS = []
+# List of domain names that this django site can serve
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 REST_FRAMEWORK = {
+    # Tells API to look for JWT tokens for authentication.
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
-    "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticated",
+
+    # Authentication required for any write actions, read actions allowed for anyone
+    "DEFAULT_PERMISSION_CLASSES": [ 
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly",
     ],
 }
 
+# Sets access and refresh token lifetime
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+}
+
+# Ensures the authentication uses JWT tokens
+REST_AUTH = {
+    'USE_JWT': True,
+    'JWT_AUTH_COOKIE': 'my-auth-cookie',  # Optional: Name of the cookie to store the JWT
+    'JWT_AUTH_REFRESH_COOKIE': 'my-refresh-cookie',  # Optional: Name of the cookie to store the refresh token
+    'REGISTER_SERIALIZER': 'dj_rest_auth.registration.serializers.RegisterSerializer',
 }
 
 # Application definition
@@ -40,11 +53,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Third party apps
     'rest_framework',
     'rest_framework.authtoken',
     'dj_rest_auth',
     'corsheaders',
-    'api'
+
+    # My apps
+    'api',
+
+    # Required by allauth
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 ]
 
 MIDDLEWARE = [
@@ -56,6 +79,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware'
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -139,3 +163,11 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://127.0.0.1:3000'
 ]
+
+# Required by allauth
+SITE_ID = 1
+
+ACCOUNT_LOGIN_METHODS = ['email'] 
+ACCOUNT_SIGNUP_FIELDS = ['username*', 'email*', 'password1*', 'password2*']  # Ensures that email is required for signup
+ACCOUNT_EMAIL_VERIFICATION = 'none' # Or 'mandatory'
+ACCOUNT_UNIQUE_EMAIL = True
