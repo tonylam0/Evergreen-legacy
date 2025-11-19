@@ -4,7 +4,7 @@ from .models import CustomUser, Video, Review, ReviewUpvote, Reply, ReplyUpvote,
 
 # Allow view of submit_date in admin panel
 class VideoAdmin(admin.ModelAdmin):
-    readonly_fields = ('submit_date',)
+    readonly_fields = ('submit_date',)  # Must be a tuple
 
     # Specifies the order of fields in the admin panel
     fields = (
@@ -20,9 +20,12 @@ class VideoAdmin(admin.ModelAdmin):
         'is_approved'
     )
 
+class ReviewAdmin(admin.ModelAdmin):
+    readonly_fields = ('created_at',)  
+
 admin.site.register(CustomUser)
 admin.site.register(Video, VideoAdmin)
-admin.site.register(Review)
+admin.site.register(Review, ReviewAdmin)
 admin.site.register(ReviewUpvote)
 admin.site.register(Reply)
 admin.site.register(ReplyUpvote)

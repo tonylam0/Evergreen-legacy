@@ -33,7 +33,10 @@ REST_FRAMEWORK = {
 # Sets access and refresh token lifetime
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=14),
+
+    "ROTATE_REFRESH_TOKENS": True,  # Rotate refresh token after every use
+    "BLACKLIST_AFTER_ROTATION": True  # Invalidates the old refresh token immediately
 }
 
 # Ensures the authentication uses JWT tokens
@@ -80,6 +83,16 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware'
+]
+
+# List of backends that Django uses to authenticate users
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of allauth
+    'django.contrib.auth.backends.ModelBackend',
+
+    # Allauth specific authentication methods
+    # Needed to login by email
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 ROOT_URLCONF = 'backend.urls'

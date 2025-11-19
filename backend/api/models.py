@@ -33,7 +33,7 @@ class Video(models.Model):
 class Review(models.Model):
     author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="reviews")
     video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name="reviews")
-    review_text = models.TextField()
+    review_text = models.TextField(blank=True, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     rating = models.IntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(6)]

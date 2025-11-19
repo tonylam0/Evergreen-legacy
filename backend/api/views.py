@@ -3,10 +3,11 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from django.conf import settings
+from django.shortcuts import get_object_or_404
+from .models import Video, Review
+from .serializers import VideoSerializer, ReviewSerializer
 import requests
 import re
-from .models import Video
-from .serializers import VideoSerializer
 
 
 # Extract video ID from YouTube URL
@@ -86,6 +87,47 @@ class SubmitVideoView(APIView):
             )
 
             serializer = VideoSerializer(video)  # Converts video object into JSON format
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+# Handles review creation requests
+class CreateReviewView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):        
+        # Retrieves video object
+        youtube_id = request.data.get('youtube_id')
+        video = get_object_or_404(Video, youtube_id=youtube_id)  # Returns 404 for non-exist youtube video
+        
+        if Review.objects.filter(author=request.user, video=video).exists():
+            return Response({"error": "You have already a review for the video"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        rating = request.data.get('rating')
+        if not rating:
+            return Response({"error": "Review must have a rating"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Checks if rating is a number
+        try:
+            rating = int(rating) # Ensure it's a number
+            if not (1 <= rating <= 6):
+                return Response({"error": "Rating must be between 1 and 6"}, status=status.HTTP_400_BAD_REQUEST)
+        except ValueError:
+             return Response({"error": "Rating must be a number"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Review text does not require check because review does not require text (only rating is required)
+        review_text = request.data.get('review_text', "")   # Default to "" if user does not send review text
+
+        try:
+            review = Review.objects.create(
+                author = request.user,
+                video = video,
+                review_text = review_text,
+                rating = rating
+            )
+
+            serializer = ReviewSerializer(review)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         except Exception as e:
