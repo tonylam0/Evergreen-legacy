@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import status, generics, permissions
+from rest_framework.exceptions import PermissionDenied
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 from .models import Video, Review
@@ -36,7 +36,7 @@ def parse_duration(duration):
 
 # Handles video submission requests
 class SubmitVideoView(APIView):
-    permission_classes = [IsAuthenticated]  # Only allows authenticated users to submit videos
+    permission_classes = [permissions.IsAuthenticated]  # Only allows authenticated users to submit videos
 
     def post(self, request):
         # Get the YouTube URL from the request data
@@ -91,15 +91,24 @@ class SubmitVideoView(APIView):
 
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
-# Handles review creation requests
+
+# CRUD operations for reviews
 class CreateReviewView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):        
-        # Retrieves video object
-        youtube_id = request.data.get('youtube_id')
-        video = get_object_or_404(Video, youtube_id=youtube_id)  # Returns 404 for non-exist youtube video
+        video_id_str = request.data.get('video_id')
+    
+        if not video_id_str:
+            return Response({"error": "Video ID is required."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Checks for valid integer video ID
+        try:
+            video_id = int(video_id_str)
+        except ValueError:
+            return Response({"error": "Video ID must be an integer."}, status=status.HTTP_400_BAD_REQUEST)
+
+        video = get_object_or_404(Video, pk=video_id)  # pk is primary key
         
         if Review.objects.filter(author=request.user, video=video).exists():
             return Response({"error": "You have already a review for the video"}, status=status.HTTP_400_BAD_REQUEST)
@@ -132,3 +141,46 @@ class CreateReviewView(APIView):
 
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+# Read all reviews for a specific video
+class ListReviewView(generics.ListAPIView):
+    permission_classes = [permissions.AllowAny]
+    serializer_class = ReviewSerializer
+    
+    def get_queryset(self):
+        video_id = self.kwargs.get('video_id')
+
+        # Double underscore traversal allows you to access the id of the related video object
+        return Review.objects.filter(video__id=video_id).order_by('-created_at')  # Newest reviews first
+    
+# Reads a single review
+# Don't need a get_object method because generics.RetrieveAPIView does it autoamtically
+class ReadReviewView(generics.RetrieveAPIView):
+    permission_classes = [permissions.AllowAny]
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+        
+class EditReviewView(generics.UpdateAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+
+    def get_object(self):
+        pk = self.kwargs.get('pk')
+        review = get_object_or_404(Review, pk=pk)
+        if review.author != self.request.user:
+            raise PermissionDenied("You do not have permission to edit this review.")
+        
+        return review
+
+class DeleteReviewView(generics.DestroyAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Review.objects.all()
+
+    def get_object(self):
+        pk = self.kwargs.get('pk')
+        review = get_object_or_404(Review, pk=pk)
+        if review.author != self.request.user:
+            raise PermissionDenied("You do not have permission to delete this review.")
+        
+        return review
