@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CustomUser, Video, Review, ReviewUpvote, Reply, ReplyUpvote, VideoSave
+from .models import CustomUser, Video, Review, ReviewUpvote, Reply, ReplyUpvote
 
 
 # Allow view of submit_date in admin panel
@@ -39,4 +39,3 @@ admin.site.register(Review, ReviewAdmin)
 admin.site.register(ReviewUpvote)
 admin.site.register(Reply)
 admin.site.register(ReplyUpvote)
-admin.site.register(VideoSave)

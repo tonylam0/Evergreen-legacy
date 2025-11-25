@@ -72,11 +72,10 @@ class ReplyUpvote(models.Model):
     class Meta:
         unique_together = ('user', 'reply')
 
-# Used to save a video to their loved videos collection
-class VideoSave(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="video_saves")
-    video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name="video_saves")
-    saved_at = models.DateTimeField(auto_now_add=True)
+# Used to store user-saved videos
+class EvergreenCollection(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="evergreen_collection")
+    video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name="evergreen_collection")
 
     class Meta:
         unique_together = ('user', 'video')

@@ -157,12 +157,10 @@ class ListReviewView(generics.ListAPIView):
 # Don't need a get_object method because generics.RetrieveAPIView does it autoamtically
 class ReadReviewView(generics.RetrieveAPIView):
     permission_classes = [permissions.AllowAny]
-    queryset = Review.objects.all()
     serializer_class = ReviewSerializer
         
 class EditReviewView(generics.UpdateAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    queryset = Review.objects.all()
     serializer_class = ReviewSerializer
 
     def get_object(self):
@@ -175,7 +173,6 @@ class EditReviewView(generics.UpdateAPIView):
 
 class DeleteReviewView(generics.DestroyAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    queryset = Review.objects.all()
 
     def get_object(self):
         pk = self.kwargs.get('pk')
@@ -184,3 +181,16 @@ class DeleteReviewView(generics.DestroyAPIView):
             raise PermissionDenied("You do not have permission to delete this review.")
         
         return review
+
+class VideoSaveView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        pk = self.kwargs.get('pk') 
+        video = get_object_or_404(Video, pk)
+        
+        try:
+            self.user.evergreen_collection.objects.add(video)
+            return Response({"message": "Video is saved!"}, status=status.HTTP_201_CREATED)
+        except: 
+            return Response({"error": "Error occured while trying to save video"}, status=status.HTTP_400_BAD_REQUEST)
