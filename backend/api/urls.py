@@ -1,4 +1,4 @@
-from .views import SubmitVideoView, CreateReviewView, ListReviewView, ReadReviewView, EditReviewView, DeleteReviewView
+from .views import SubmitVideoView, CreateReviewView, ListReviewView, ReadReviewView, EditReviewView, DeleteReviewView, FeedView
 from django.urls import path
 
 
@@ -9,4 +9,5 @@ urlpatterns = [
     path('review/<int:pk>/', ReadReviewView.as_view(), name='read-review'), 
     path('edit-review/<int:pk>/', EditReviewView.as_view(), name='edit-review'),  
     path('delete-review/<int:pk>/', DeleteReviewView.as_view(), name='delete-review'), 
+    path('feed/', FeedView.as_view(), name='feed')
 ]

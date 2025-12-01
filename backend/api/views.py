@@ -194,3 +194,9 @@ class VideoSaveView(APIView):
             return Response({"message": "Video is saved!"}, status=status.HTTP_201_CREATED)
         except: 
             return Response({"error": "Error occured while trying to save video"}, status=status.HTTP_400_BAD_REQUEST)
+
+class FeedView(generics.ListAPIView):
+    model = Video
+    paginate_by = 3
+    context_object_name = "videos"
+    ordering = pass  # This will be the home of the algorithm
