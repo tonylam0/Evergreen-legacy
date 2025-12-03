@@ -4,7 +4,7 @@ from rest_framework import status, generics, permissions
 from rest_framework.exceptions import PermissionDenied
 from django.conf import settings
 from django.shortcuts import get_object_or_404
-from .models import Video, Review
+from .models import EvergreenCollection, Video, Review
 from .serializers import VideoSerializer, ReviewSerializer
 import requests
 import re
@@ -151,7 +151,7 @@ class ListReviewView(generics.ListAPIView):
         video_id = self.kwargs.get('video_id')
 
         # Double underscore traversal allows you to access the id of the related video object
-        return Review.objects.filter(video__id=video_id).order_by('-created_at')  # Newest reviews first
+        return Review.objects.filter(video__id=video_id).order_by('-review_upvotes')  # Most liked reviews first
     
 # Reads a single review
 # Don't need a get_object method because generics.RetrieveAPIView does it autoamtically
@@ -188,15 +188,9 @@ class VideoSaveView(APIView):
     def get_object(self):
         pk = self.kwargs.get('pk') 
         video = get_object_or_404(Video, pk)
-        
+
         try:
-            self.user.evergreen_collection.objects.add(video)
+            EvergreenCollection.objects.create(user=self.request.user, video=video)
             return Response({"message": "Video is saved!"}, status=status.HTTP_201_CREATED)
         except: 
             return Response({"error": "Error occured while trying to save video"}, status=status.HTTP_400_BAD_REQUEST)
-
-class FeedView(generics.ListAPIView):
-    model = Video
-    paginate_by = 3
-    context_object_name = "videos"
-    ordering = pass  # This will be the home of the algorithm
