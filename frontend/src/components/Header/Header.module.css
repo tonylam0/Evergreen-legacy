@@ -34,7 +34,6 @@
 
 .buttonTransparent {
   background-color: transparent;
-  padding: 7px 30px;
   margin-right: 10px;
   border: 1px solid #4B544B;
   color: #4B544B;
@@ -42,7 +41,6 @@
 
 .buttonGreen {
   background-color: #4B544B;
-  padding: 7px 30px;
   border: 1px solid #4B544B;
   color: #f4f4f4;
 }
