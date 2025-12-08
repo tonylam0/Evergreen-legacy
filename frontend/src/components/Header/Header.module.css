@@ -1,0 +1,48 @@
+.header {
+  font-family: "Inria Sans";
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  width: 100vw;
+  height: 5vh;
+}
+
+.logo {
+  display: flex;
+  justify-content: left;
+  margin-left: 20px;
+}
+
+.tabs {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  font-weight: 100;
+}
+
+.tabName {
+  padding: 10px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.buttonTransparent {
+  background-color: transparent;
+  padding: 7px 30px;
+  margin-right: 10px;
+  border: 1px solid #4B544B;
+  color: #4B544B;
+}
+
+.buttonGreen {
+  background-color: #4B544B;
+  padding: 7px 30px;
+  border: 1px solid #4B544B;
+  color: #f4f4f4;
+}
