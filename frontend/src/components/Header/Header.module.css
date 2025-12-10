@@ -4,24 +4,77 @@
   grid-auto-flow: column;
   align-items: center;
   width: 100vw;
-  height: 5vh;
+  height: 7vh;
 }
 
 .logo {
   display: flex;
   justify-content: left;
-  margin-left: 20px;
+  margin-left: 25px;
+  font-weight: 600;
+  color: #4B544B;
+  font-size: 30px;
 }
 
 .tabs {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  font-weight: 100;
 }
 
 .tabName {
-  padding: 10px;
+  margin: 13px;
+  font-weight: 400;
+  cursor: pointer;
+  position: relative;
+}
+
+.tabName::after {
+  position: absolute;
+  content:'';
+  width: 0%;
+  height: 2px;
+  background-color: #000000;
+  transition: width 0.3s ease 0s, left 0.3s ease 0s;
+  bottom: -3px;
+  left: 50%;
+}
+
+.tabName:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+.tabExplore {
+  opacity: 50%;
+}
+
+.tabExplore:hover {
+  opacity: 100%;
+}
+
+.tabEC {
+  opacity: 50%;
+}
+
+.tabEC:hover {
+  opacity: 100%;
+}
+
+.tabContact {
+  opacity: 50%;
+}
+
+.tabContact:hover {
+  opacity: 100%;
+}
+
+.tabSupport {
+  opacity: 50%;
+}
+
+.tabSupport:hover {
+  opacity: 100%;
 }
 
 .buttons {
@@ -29,7 +82,8 @@
   flex-direction: row;
   justify-content: right;
   align-items: center;
-  margin-right: 20px;
+  margin-right: 25px;
+  font-size: 20px;
 }
 
 .buttonTransparent {
@@ -37,10 +91,25 @@
   margin-right: 10px;
   border: 1px solid #4B544B;
   color: #4B544B;
+  cursor: pointer;
+}
+
+.buttonTransparent:hover {
+  background-color: #eae8e8;
+  border-color: #404740;
+  color: #404740;
 }
 
 .buttonGreen {
   background-color: #4B544B;
   border: 1px solid #4B544B;
   color: #f4f4f4;
+  cursor: pointer;
 }
+
+.buttonGreen:hover {
+  background-color: #404740;
+  border-color: #404740;
+  color: #eae8e8;
+}
+

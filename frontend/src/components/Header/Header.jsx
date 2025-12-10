@@ -7,11 +7,11 @@ const Header = () => {
       <div className={styles.header}>
         <h2 id="logo" className={styles.logo}>EVERGREEN</h2>
         <div className={styles.tabs}>
-          <h4 id="explore" className={styles.tabName}>Explore</h4>
-          <h4 id="evergreenCollection" className={styles.tabName}>My Evergreen Collection</h4>
-          <h4 id="about" className={styles.tabName}>About</h4>
-          <h4 id="contact" className={styles.tabName}>Contact</h4>
-          <h4 id="support" className={styles.tabName}>Support Us</h4>
+          <h3 id="explore" className={`${styles.tabName} ${styles.tabExplore}`}>Explore</h3>
+          <h3 id="evergreenCollection" className={`${styles.tabName} ${styles.tabEC}`}>My Evergreen Collection</h3>
+          <h3 id="about" className={`${styles.tabName} ${styles.tabAbout}`}>About</h3>
+          <h3 id="contact" className={`${styles.tabName} ${styles.tabContact}`}>Contact</h3>
+          <h3 id="support" className={`${styles.tabName} ${styles.tabSupport}`}>Support Us</h3>
         </div>
         <div className={styles.buttons}>
           <Button overrideStyle={styles.buttonTransparent}>
