@@ -25,18 +25,19 @@ a {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  gap: 26px;
 }
 
 .tabName {
-  margin: 13px;
   font-weight: 400;
   cursor: pointer;
   position: relative;
+  margin: 0;
 }
 
 .tabName::after {
   position: absolute;
-  content:'';
+  content: '';
   width: 0%;
   height: 2px;
   background-color: #000000;
@@ -56,6 +57,7 @@ a {
 
 .tabExplore:hover {
   opacity: 100%;
+  transition: opacity .3s;
 }
 
 .tabEC {
@@ -64,6 +66,16 @@ a {
 
 .tabEC:hover {
   opacity: 100%;
+  transition: opacity .3s
+}
+
+.tabAbout {
+  opacity: 50%;
+}
+
+.tabAbout:hover {
+  opacity: 100%;
+  transition: opacity .3s;
 }
 
 .tabContact {
@@ -72,6 +84,7 @@ a {
 
 .tabContact:hover {
   opacity: 100%;
+  transition: opacity .3s
 }
 
 .tabSupport {
@@ -80,6 +93,7 @@ a {
 
 .tabSupport:hover {
   opacity: 100%;
+  transition: opacity .3s
 }
 
 .buttons {
@@ -89,11 +103,11 @@ a {
   align-items: center;
   margin-right: 25px;
   font-size: 20px;
+  gap: 10px;
 }
 
 .buttonTransparent {
   background-color: transparent;
-  margin-right: 10px;
   border: 1px solid #4B544B;
   color: #4B544B;
   cursor: pointer;
@@ -117,4 +131,3 @@ a {
   border-color: #404740;
   color: #eae8e8;
 }
-

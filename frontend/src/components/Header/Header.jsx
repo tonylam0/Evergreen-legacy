@@ -8,7 +8,7 @@ const Header = () => {
       <div className={styles.header}>
         <h2 id="logo" className={styles.logo}>EVERGREEN</h2>
         <div className={styles.tabs}>
-          <Link to={"explore"}>
+          <Link to={"/"}>
             <h3 id="explore" className={`${styles.tabName} ${styles.tabExplore}`}>Explore</h3>
           </Link>
 
