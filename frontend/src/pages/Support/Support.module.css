@@ -1,0 +1,47 @@
+.container {
+  background-color: #f4f4f4;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  font-family: "Inria Sans";
+}
+
+.container .tabSupport {
+  opacity: 100%;
+}
+
+.container .tabSupport::after {
+  width: 100%;
+  left: 0;
+}
+
+.text {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 45px;
+  margin: 0;
+}
+
+.message {
+  margin-top: 10px;
+  width: 526px;
+  font-size: 20px;
+  font-weight: 300;
+  text-align: center;
+}
+
+.coffee {
+  width: 230px;
+  cursor: pointer;
+  margin-bottom: 100px;
+}
+
+.coffee:hover {
+  opacity: 85%;
+}
