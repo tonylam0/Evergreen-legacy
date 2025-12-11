@@ -5,7 +5,7 @@ function Homepage() {
   return (
     <>
       <div className={styles.container}>
-        <Header></Header>
+        <Header tabExplore={styles.tabExplore}></Header>
       </div>
     </>
   )

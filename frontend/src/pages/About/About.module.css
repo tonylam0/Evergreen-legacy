@@ -31,3 +31,12 @@
   font-weight: 300;
   margin-bottom: 50px;
 }
+
+.container .tabAbout {
+  opacity: 100%;
+}
+
+.container .tabAbout::after {
+  width: 100%;
+  left: 0;
+}

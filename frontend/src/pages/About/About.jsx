@@ -1,11 +1,11 @@
 import styles from './About.module.css'
 import Header from '../../components/Header/Header.jsx'
 
-function Homepage() {
+function About() {
   return (
     <>
       <div className={styles.container}>
-        <Header></Header>
+        <Header tabAbout={styles.tabAbout}></Header>
         <div className={styles.text}>
           <h2 className={styles.title}>
             Message from founder
@@ -29,4 +29,4 @@ function Homepage() {
   )
 }
 
-export default Homepage
+export default About

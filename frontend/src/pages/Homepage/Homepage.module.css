@@ -5,3 +5,12 @@
   overflow: hidden;
   margin: 0;
 }
+
+.container .tabExplore { /* .container used to increase specificity for overriding the header element */
+  opacity: 100%;
+}
+
+.container .tabExplore::after {
+  width: 100%;
+  left: 0;
+}
