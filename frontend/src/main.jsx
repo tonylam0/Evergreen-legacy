@@ -5,6 +5,7 @@ import './index.css'
 import Homepage from './pages/Homepage/Homepage.jsx'
 import About from './pages/About/About.jsx'
 import Support from './pages/Support/Support.jsx'
+import Contact from './pages/Contact/Contact.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -13,7 +14,8 @@ createRoot(document.getElementById('root')).render(
         <Route path="/" element={<Homepage />}></Route>
         <Route path="/about" element={<About />}></Route>
         <Route path="/support" element={<Support />}></Route>
+        <Route path="/contact" element={<Contact />}></Route>
       </Routes>
     </BrowserRouter>
-  </StrictMode >,
+  </StrictMode >
 )

@@ -1,0 +1,114 @@
+.container {
+  background-color: #f4f4f4;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  font-family: "Inria Sans";
+}
+
+.container .tabContact {
+  opacity: 100%;
+}
+
+.container .tabContact::after {
+  width: 100%;
+  left: 0;
+}
+
+.mainBox {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 50px;
+  margin: 0;
+}
+
+.paragraph {
+  width: 510px;
+  text-align: center;
+  margin-top: 0;
+  font-weight: 300;
+  font-size: 18px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: 350px;
+  margin-bottom: 100px;
+}
+
+.form .input {
+  width: 100%;
+}
+
+.form .input:focus {
+  outline: none;
+}
+
+.nameInputs {
+  display: flex;
+  gap: 5px;
+  width: 350px;
+}
+
+.form .nameInputs .input {
+  width: 50%;
+}
+
+.messageBox {
+  width: 100%;
+  height: 125px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 1px solid #4B544B;
+  background-color: rgba(233, 233, 233, .75);
+  font-size: 15px;
+  font-family: "Inria Sans";
+  padding: 10px;
+  resize: none;
+  overflow: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.messageBox::-webkit-scrollbar {
+  display: none;
+}
+
+.messageBox:focus {
+  outline: none;
+}
+
+.sendButton {
+  background-color: #4B544B;
+  border: 1px solid #4B544B;
+  color: #f4f4f4;
+  cursor: pointer;
+  font-weight: 100;
+  width: 100%;
+  box-sizing: border-box;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sendButton:hover {
+  background-color: #404740;
+  border-color: #404740;
+  color: #eae8e8;
+}
+
+.childrenStyle {
+  font-weight: 400;
+}

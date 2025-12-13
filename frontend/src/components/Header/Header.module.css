@@ -27,6 +27,7 @@ a {
   flex-direction: row;
   justify-content: center;
   gap: 26px;
+  font-size: 18px;
 }
 
 .tabName {
