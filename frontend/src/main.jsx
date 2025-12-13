@@ -7,6 +7,7 @@ import About from './pages/About/About.jsx'
 import Support from './pages/Support/Support.jsx'
 import Contact from './pages/Contact/Contact.jsx'
 import SignUp from './pages/SignUp/SignUp.jsx'
+import Login from './pages/Login/Login.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -17,6 +18,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/support" element={<Support />}></Route>
         <Route path="/contact" element={<Contact />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
+        <Route path="/login" element={<Login />}></Route>
       </Routes>
     </BrowserRouter>
   </StrictMode >

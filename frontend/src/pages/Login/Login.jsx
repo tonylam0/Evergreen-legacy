@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import styles from './SignUp.module.css'
+import styles from './Login.module.css'
 import Logo from '../../assets/logo.svg?react'
-import InputBox from '../../components/InputBox/InputBox'
+import InputBox from '../../components/InputBox/InputBox.jsx'
 import Button from '../../components/Button/Button.jsx'
 import Email from '../../assets/email.svg?react'
 import Username from '../../assets/username.svg?react'
@@ -12,7 +12,7 @@ import AppleLogo from '../../assets/apple.svg?react'
 import GoogleLogo from '../../assets/google.svg?react'
 import { Link } from 'react-router-dom'
 
-function SignUp() {
+function Login() {
   const [showPassword, setShowPassword] = useState("password")
   const [passwordIcon, setPasswordIcon] = useState(Unshow)
   const passwordStyle = showPassword === "password" ? styles.hidePassword : styles.showPassword
@@ -31,7 +31,7 @@ function SignUp() {
     <>
       <div className={styles.container}>
         <Logo className={styles.logo}></Logo>
-        <h1 className={styles.title}>Welcome to Evergreen</h1>
+        <h1 className={styles.title}>Welcome back to Evergreen</h1>
         <p className={styles.message}>Discover memorable and long-lasting video essays</p>
 
         <form className={styles.form}>
@@ -41,17 +41,12 @@ function SignUp() {
           </div>
 
           <div className={styles.inputContainer}>
-            <Username className={styles.icon}></Username>
-            <InputBox input={styles.input} type="text" name="username" placeholder="Create a username"></InputBox>
-          </div>
-
-          <div className={styles.inputContainer}>
             <Lock className={styles.icon}></Lock>
-            <InputBox input={`${styles.input} ${passwordStyle}`} type={showPassword} name="password" placeholder="Create a password"></InputBox>
+            <InputBox input={`${styles.input} ${passwordStyle}`} type={showPassword} name="password" placeholder="Password"></InputBox>
             <button className={styles.showIcon} onClick={updatePassword} type="button">{passwordIcon}</button>
           </div>
 
-          <Button>Sign up</Button>
+          <Button>Log in</Button>
 
         </form >
 
@@ -81,9 +76,9 @@ function SignUp() {
         </div>
 
         <p className={styles.loginMessage}>
-          Already have an account?&nbsp;
-          <Link to={"/login"} className={styles.link}>
-            Log in
+          Don't have an account?&nbsp;
+          <Link to={"/signup"} className={styles.link}>
+            Sign up
           </Link>
         </p>
 
@@ -92,4 +87,4 @@ function SignUp() {
   )
 }
 
-export default SignUp
+export default Login
