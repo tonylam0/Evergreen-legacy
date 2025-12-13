@@ -89,7 +89,7 @@
 }
 
 .loginMessage {
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 .link {
@@ -99,4 +99,82 @@
 
 .link:hover {
   color: #aa8466;
+}
+
+.oauth {
+  width: 350px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.separator {
+  margin: 30px 0px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.leftLine {
+  width: 45%;
+  height: 1px;
+  background-color: black;
+  opacity: 50%;
+}
+
+.rightLine {
+  width: 45%;
+  height: 1px;
+  background-color: black;
+  opacity: 50%;
+}
+
+.orText {
+  margin: 0;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+}
+
+.oauthButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttons .buttonTransparent {
+  background-color: transparent;
+  border: 1px solid #4B544B;
+  border-radius: 1px;
+  color: black;
+  cursor: pointer;
+  flex-direction: row;
+}
+
+.buttons .buttonTransparent:hover {
+  background-color: #eae8e8;
+  border-color: #404740;
+  color: #404740;
+}
+
+.oauthLogo {
+  height: 22px;
+  width: 22px;
+}
+
+.oauthText {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  font-weight: 400;
 }

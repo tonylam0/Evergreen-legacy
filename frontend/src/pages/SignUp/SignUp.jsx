@@ -8,6 +8,8 @@ import Username from '../../assets/username.svg?react'
 import Lock from '../../assets/lock.svg?react'
 import Show from '../../assets/show.svg?react'
 import Unshow from '../../assets/unshow.svg?react'
+import AppleLogo from '../../assets/apple.svg?react'
+import GoogleLogo from '../../assets/google.svg?react'
 import { Link } from 'react-router-dom'
 
 function SignUp() {
@@ -51,13 +53,40 @@ function SignUp() {
 
           <Button>Sign up</Button>
 
-          <p className={styles.loginMessage}>
-            Already have an account?&nbsp;
-            <Link to={"/login"} className={styles.link}>
-              Log in
-            </Link>
-          </p>
         </form >
+
+
+        <div className={styles.oauth}>
+          <div className={styles.separator}>
+            <div className={styles.leftLine}></div>
+            <p className={styles.orText}>Or</p>
+            <div className={styles.rightLine}></div>
+          </div>
+
+          <div className={styles.buttons}>
+            <div className={styles.oauthButton}>
+              <Button childrenStyle={styles.oauthText} variant={styles.buttonTransparent}>
+                <AppleLogo className={styles.oauthLogo}></AppleLogo>
+                Continue with Apple
+              </Button>
+            </div>
+
+            <div className={styles.oauthButton}>
+              <Button childrenStyle={styles.oauthText} variant={styles.buttonTransparent}>
+                <GoogleLogo className={styles.oauthLogo}></GoogleLogo>
+                Continue with Google
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        <p className={styles.loginMessage}>
+          Already have an account?&nbsp;
+          <Link to={"/login"} className={styles.link}>
+            Log in
+          </Link>
+        </p>
+
       </div >
     </>
   )
