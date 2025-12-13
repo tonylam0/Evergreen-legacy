@@ -13,9 +13,10 @@ import { Link } from 'react-router-dom'
 function SignUp() {
   const [showPassword, setShowPassword] = useState("password")
   const [passwordIcon, setPasswordIcon] = useState(Unshow)
+  const passwordStyle = showPassword === "password" ? styles.hidePassword : styles.showPassword
 
   const updatePassword = () => {
-    if (showPassword == "password") {
+    if (showPassword === "password") {
       setShowPassword("text")
       setPasswordIcon(Show)
     } else {
@@ -29,7 +30,7 @@ function SignUp() {
       <div className={styles.container}>
         <Logo className={styles.logo}></Logo>
         <h1 className={styles.title}>Welcome to <span className={styles.evergreen}>Evergreen</span></h1>
-        <p className={styles.message}>Discover memorable and long-lasting content</p>
+        <p className={styles.message}>Discover memorable and long-lasting video essays</p>
 
         <form className={styles.form}>
           <div className={styles.inputContainer}>
@@ -44,7 +45,7 @@ function SignUp() {
 
           <div className={styles.inputContainer}>
             <Lock className={styles.icon}></Lock>
-            <InputBox input={`${styles.input} ${styles.password}`} type={showPassword} name="password" placeholder="Create a password"></InputBox>
+            <InputBox input={`${styles.input} ${passwordStyle}`} type={showPassword} name="password" placeholder="Create a password"></InputBox>
             <button className={styles.showIcon} onClick={updatePassword} type="button">{passwordIcon}</button>
           </div>
 

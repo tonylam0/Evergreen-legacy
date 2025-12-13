@@ -57,10 +57,25 @@
 .input {
   width: 100%;
   padding-left: 35px;
+  display: flex;
+  align-items: center;
 }
 
 .input:focus {
   outline: none;
+}
+
+.hidePassword {
+  letter-spacing: 2px;
+  padding-right: 35px;
+}
+
+.hidePassword::placeholder {
+  letter-spacing: 0px;
+}
+
+.showPassword {
+  padding-right: 35px;
 }
 
 .showIcon {
