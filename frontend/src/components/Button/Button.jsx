@@ -3,6 +3,8 @@ import styles from "./Button.module.css"
 const Button = ({ children, variant, overrideStyle, childrenStyle }) => {
   // If a variant style is provided, pass it. 
   // if not, default to the green style.
+  // overrideStyle is for changing the buttonBase 
+  // while still keeping the defualt styling.
   const buttonBase = `${styles.buttonBase} ${overrideStyle}`
   const button = `${buttonBase} ${variant} || ${buttonBase} ${styles.green}`
 

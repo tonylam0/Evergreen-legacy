@@ -17,16 +17,18 @@
 
 .title {
   margin: 0;
-  font-weight: 100;
+  font-weight: 700;
 }
 
 .evergreen {
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .message {
   margin-top: 0;
   opacity: 50%;
+  margin-bottom: 20px;
+  font-weight: 300;
 }
 
 .form {
@@ -34,8 +36,41 @@
   flex-direction: column;
   width: 350px;
   row-gap: 5px;
+  align-items: center;
+}
+
+.inputContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  position: absolute;
+  margin-left: 12px;
+  stroke: black;
+  stroke-width: .5px;
+  height: 25px;
 }
 
 .input {
   width: 100%;
+  padding-left: 35px;
+}
+
+.input:focus {
+  outline: none;
+}
+
+.loginMessage {
+  margin-top: 10px;
+}
+
+.link {
+  color: #CEA07C;
+  text-decoration: underline;
+}
+
+.link:hover {
+  color: #aa8466;
 }

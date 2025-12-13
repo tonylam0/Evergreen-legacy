@@ -30,7 +30,7 @@ const Header = (props) => {
         </div>
         <div className={styles.buttons}>
           <Link to={"/signup"}>
-            <Button buttonBase={styles.buttonTransparent} variant={styles.buttonTransparent}>
+            <Button variant={styles.buttonTransparent}>
               Sign Up
             </Button>
           </Link>
