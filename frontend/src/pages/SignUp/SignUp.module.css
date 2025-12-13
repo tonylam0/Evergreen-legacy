@@ -43,6 +43,7 @@
   width: 100%;
   display: flex;
   align-items: center;
+  position: relative;
 }
 
 .icon {
@@ -60,6 +61,16 @@
 
 .input:focus {
   outline: none;
+}
+
+.showIcon {
+  position: absolute;
+  background-color: transparent;
+  border: 0;
+  right: 12px;
+  padding: 0;
+  display: flex;
+  cursor: pointer;
 }
 
 .loginMessage {
