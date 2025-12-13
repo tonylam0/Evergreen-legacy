@@ -108,28 +108,20 @@ a {
   gap: 10px;
 }
 
-.buttonTransparent {
+.buttons .buttonTransparent {
   background-color: transparent;
   border: 1px solid #4B544B;
   color: #4B544B;
   cursor: pointer;
+  width: 130px;
 }
 
-.buttonTransparent:hover {
+.buttons .buttonTransparent:hover {
   background-color: #eae8e8;
   border-color: #404740;
   color: #404740;
 }
 
-.buttonGreen {
-  background-color: #4B544B;
-  border: 1px solid #4B544B;
-  color: #f4f4f4;
-  cursor: pointer;
-}
-
-.buttonGreen:hover {
-  background-color: #404740;
-  border-color: #404740;
-  color: #eae8e8;
+.buttons .buttonGreen {
+  width: 130px;
 }

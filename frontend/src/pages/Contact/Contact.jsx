@@ -20,7 +20,7 @@ function Contact() {
             </div>
             <InputBox input={styles.input} type="text" name="email" placeholder="Enter your email"></InputBox>
             <textarea className={styles.messageBox} placeholder="Leave us a message"></textarea>
-            <Button overrideStyle={styles.sendButton} childrenStyle={styles.childrenStyle}>
+            <Button childrenStyle={styles.childrenStyle}>
               Send message
             </Button>
           </form>

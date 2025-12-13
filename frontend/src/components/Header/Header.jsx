@@ -30,7 +30,7 @@ const Header = (props) => {
         </div>
         <div className={styles.buttons}>
           <Link to={"/signup"}>
-            <Button overrideStyle={styles.buttonTransparent}>
+            <Button buttonBase={styles.buttonTransparent} variant={styles.buttonTransparent}>
               Sign Up
             </Button>
           </Link>

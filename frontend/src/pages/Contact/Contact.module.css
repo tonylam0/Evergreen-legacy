@@ -89,26 +89,6 @@
   outline: none;
 }
 
-.sendButton {
-  background-color: #4B544B;
-  border: 1px solid #4B544B;
-  color: #f4f4f4;
-  cursor: pointer;
-  font-weight: 100;
-  width: 100%;
-  box-sizing: border-box;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.sendButton:hover {
-  background-color: #404740;
-  border-color: #404740;
-  color: #eae8e8;
-}
-
 .childrenStyle {
   font-weight: 400;
 }

@@ -1,8 +1,27 @@
-.background {
+.buttonBase {
   border-radius: 5px;
-  padding: 10px 35px;
+  cursor: pointer;
+  font-weight: 100;
+  width: 350px;
+  box-sizing: border-box;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .children {
   margin: 0;
+}
+
+.green {
+  background-color: #4B544B;
+  border: 1px solid #4B544B;
+  color: #f4f4f4;
+}
+
+.green:hover {
+  background-color: #404740;
+  border-color: #404740;
+  color: #eae8e8;
 }
