@@ -32,7 +32,7 @@
   width: 536px;
   font-size: 20px;
   font-weight: 300;
-  margin-bottom: 50px;
+  text-align: justify;
 }
 
 .container .tabAbout {
@@ -42,4 +42,22 @@
 .container .tabAbout::after {
   width: 100%;
   left: 0;
+}
+
+@media (max-width: 480px) {}
+
+@media (max-width: 768px) {}
+
+@media (max-width: 1024px) {}
+
+@media (max-width: 1440px) {
+  .title {
+    font-size: 25px;
+  }
+
+  .message {
+    font-size: 17px;
+    width: 800px;
+    text-align: justify;
+  }
 }

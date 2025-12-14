@@ -151,6 +151,7 @@ a {
 
   .tabs {
     font-size: 16px;
+    gap: 20px;
   }
 
 
@@ -159,12 +160,12 @@ a {
   }
 
   .buttons .buttonTransparent {
-    width: 100px;
+    width: 110px;
     height: 45px;
   }
 
   .buttons .buttonGreen {
-    width: 100px;
+    width: 110px;
     height: 45px;
   }
 
