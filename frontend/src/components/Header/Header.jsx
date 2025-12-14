@@ -6,7 +6,9 @@ const Header = (props) => {
   return (
     <>
       <div className={styles.header}>
-        <h2 id="logo" className={styles.logo}>EVERGREEN</h2>
+        <Link to={"/"} className={styles.logoLink}>
+          <h2 id="logo" className={styles.logo}>EVERGREEN</h2>
+        </Link>
         <div className={styles.tabs}>
           <Link to={"/"}>
             <h3 id="explore" className={`${styles.tabName} ${styles.tabExplore} ${props.tabExplore}`}>Explore</h3>
