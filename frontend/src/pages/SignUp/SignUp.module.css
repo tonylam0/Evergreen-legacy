@@ -63,7 +63,7 @@
 
 .hidePassword {
   letter-spacing: 2px;
-  padding-right: 35px;
+  padding-right: 45px;
 }
 
 .hidePassword::placeholder {
@@ -71,17 +71,18 @@
 }
 
 .showPassword {
-  padding-right: 35px;
+  padding-right: 45px;
 }
 
 .showIcon {
   position: absolute;
   background-color: transparent;
   border: 0;
-  right: 12px;
+  right: 16px;
   padding: 0;
   display: flex;
   cursor: pointer;
+  width: 18px;
 }
 
 .loginMessage {

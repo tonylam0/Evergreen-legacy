@@ -15,8 +15,11 @@
 }
 
 .name {
-  text-decoration: underline;
   font-style: italic;
+}
+
+.name:hover {
+  text-decoration: underline;
 }
 
 .title {
