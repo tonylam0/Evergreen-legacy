@@ -31,7 +31,7 @@ function SignUp() {
     <>
       <div className={styles.container}>
         <Logo className={styles.logo}></Logo>
-        <h1 className={styles.title}>Welcome to Evergreen</h1>
+        <h1 className={styles.title}>Welcome to Evergreen!</h1>
         <p className={styles.message}>Discover memorable and long-lasting video essays</p>
 
         <form className={styles.form}>
@@ -51,8 +51,7 @@ function SignUp() {
             <button className={styles.showIcon} onClick={updatePassword} type="button">{passwordIcon}</button>
           </div>
 
-          <Button>Sign up</Button>
-
+          <Button overrideStyle={styles.buttonBase} children={styles.childrenStyle}>Sign up</Button>
         </form >
 
 

@@ -58,7 +58,7 @@
 .nameInputs {
   display: flex;
   gap: 5px;
-  width: 350px;
+  width: 100%;
 }
 
 .form .nameInputs .input {
@@ -89,6 +89,36 @@
   outline: none;
 }
 
+.buttonBase {
+  width: 100%;
+}
+
 .childrenStyle {
-  font-weight: 400;
+  font-weight: 700;
+}
+
+@media (max-width: 480px) {}
+
+@media (max-width: 768px) {}
+
+@media (max-width: 1024px) {}
+
+@media (max-width: 1440px) {
+  .title {
+    font-size: 40px;
+  }
+
+  .paragraph {
+    font-size: 17px;
+    width: 450px;
+  }
+
+  .form {
+    margin-bottom: 0;
+    width: 325px;
+  }
+
+  .childrenStyle {
+    font-size: 15px;
+  }
 }

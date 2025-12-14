@@ -45,3 +45,17 @@
 .coffee:hover {
   opacity: 85%;
 }
+
+@media (max-width: 480px) {}
+
+@media (max-width: 768px) {}
+
+@media (max-width: 1024px) {}
+
+@media (max-width: 1440px) {
+  .coffee {
+    margin-bottom: 25px;
+    width: 210px;
+  }
+
+}

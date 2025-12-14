@@ -175,3 +175,35 @@
   gap: 5px;
   font-weight: 400;
 }
+
+@media (max-width: 480px) {}
+
+@media (max-width: 768px) {}
+
+@media (max-width: 1024px) {}
+
+@media (max-width: 1440px) {
+  .logo {
+    margin-bottom: 10px;
+  }
+
+  .input {
+    height: 45px;
+  }
+
+  .buttonBase {
+    height: 45px;
+  }
+
+  .separator {
+    margin: 20px 0px;
+  }
+
+  .buttons {
+    gap: 10px;
+  }
+
+  .oauthButton {
+    height: 45px;
+  }
+}
