@@ -133,3 +133,39 @@ a {
 .buttons .buttonGreen {
   width: 130px;
 }
+
+@media (max-width: 480px) {}
+
+@media (max-width: 768px) {}
+
+@media (max-width: 1024px) {}
+
+@media (max-width: 1440px) {
+  .header {
+    height: 10vh;
+  }
+
+  .logo {
+    font-size: 28px;
+  }
+
+  .tabs {
+    font-size: 16px;
+  }
+
+
+  .buttons {
+    font-size: 18px;
+  }
+
+  .buttons .buttonTransparent {
+    width: 100px;
+    height: 45px;
+  }
+
+  .buttons .buttonGreen {
+    width: 100px;
+    height: 45px;
+  }
+
+}
