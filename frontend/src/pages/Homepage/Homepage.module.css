@@ -49,12 +49,19 @@
 .hero .submitChildren {
   font-size: 18px;
   font-weight: 400;
+  user-select: none;
 }
 
 .hero .searchBox {
-  width: 260px;
+  width: 325px;
   height: 55px;
   font-size: 18px;
+  padding-left: 12px;
+  padding-right: 40px;
+}
+
+.hero .searchBox:focus {
+  outline: none;
 }
 
 .modal {
@@ -66,4 +73,104 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.popupContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+  width: 35vw;
+  height: 42vh;
+}
+
+.submission {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.title {
+  font-family: "Poppins";
+  font-size: 50px;
+  color: #0F2A2B;
+  margin-bottom: 20px;
+}
+
+.searchBar {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  align-items: center;
+}
+
+.submission .importInput {
+  height: 60px;
+  width: 450px;
+  font-size: 21px;
+  padding: 0px 15px;
+  border-radius: 7px;
+}
+
+.submission .importInput:focus {
+  outline: none;
+}
+
+.searchIcon {
+  position: absolute;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  opacity: 60%;
+  padding-right: 15px;
+  cursor: pointer;
+}
+
+.submission .importButton {
+  height: 60px;
+  background-color: #0F2A2B;
+  width: 125px;
+}
+
+.submission .importButton:hover {
+  background-color: #071616;
+}
+
+.submission .importChildren {
+  font-weight: 400;
+  font-size: 21px;
+  user-select: none;
+}
+
+.menu {
+  display: flex;
+  justify-content: center;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  align-items: center;
+  gap: 7px;
+}
+
+.menu .menuButton {
+  background-color: #0F2A2B;
+  width: 180px;
+  height: 60px;
+  border-radius: 20px;
+}
+
+.menu .menuButton:hover {
+  background-color: #071616;
+}
+
+.menu .menuChildren {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.menuArrow {
+  width: 15px;
 }

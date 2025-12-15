@@ -17,10 +17,12 @@
 .modal {
   z-index: 1000;
   position: relative;
-  width: 35vw;
+  width: 32vw;
   height: 42vh;
   background-color: #f4f4f4;
   border-radius: 20px;
+  display: flex;
+  justify-content: center;
 }
 
 .exitButton {
