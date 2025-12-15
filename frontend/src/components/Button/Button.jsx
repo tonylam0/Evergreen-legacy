@@ -1,6 +1,6 @@
 import styles from "./Button.module.css"
 
-const Button = ({ children, variant, overrideStyle, childrenStyle }) => {
+const Button = ({ children, variant, overrideStyle, childrenStyle, onClick }) => {
   // If a variant style is provided, pass it. 
   // if not, default to the green style.
   // overrideStyle is for changing the buttonBase 
@@ -10,7 +10,7 @@ const Button = ({ children, variant, overrideStyle, childrenStyle }) => {
 
   return (
     <>
-      <div className={button}>
+      <div className={button} onClick={onClick}>
         <h4 className={`${styles.children} ${childrenStyle} `}>
           {children}
         </h4>

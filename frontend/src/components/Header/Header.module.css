@@ -3,6 +3,7 @@
   display: grid;
   grid-auto-flow: column;
   align-items: center;
+  justify-content: space-between;
   width: 100vw;
   height: 7vh;
   position: absolute;
@@ -18,7 +19,7 @@ a {
 .logo {
   margin: 0;
   display: flex;
-  justify-content: left;
+  left: 0;
   font-weight: 700;
   color: #4B544B;
   font-size: 30px;
@@ -31,11 +32,16 @@ a {
 }
 
 .tabs {
+  position: absolute;
   display: flex;
   flex-direction: row;
-  justify-content: center;
   gap: 26px;
   font-size: 18px;
+  width: fit-content;
+  height: fit-content;
+  left: 0;
+  right: 0;
+  margin-inline: auto;
 }
 
 .tabName {
@@ -109,11 +115,13 @@ a {
 .buttons {
   display: flex;
   flex-direction: row;
-  justify-content: right;
+  right: 0;
   align-items: center;
   margin-right: 25px;
   font-size: 20px;
   gap: 10px;
+  width: fit-content;
+  height: fit-content;
 }
 
 .buttons .buttonTransparent {

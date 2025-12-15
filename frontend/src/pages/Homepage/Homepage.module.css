@@ -4,13 +4,66 @@
   height: 100vh;
   overflow: hidden;
   margin: 0;
+  font-family: "Inria Sans";
 }
 
-.container .tabExplore { /* .container used to increase specificity for overriding the header element */
+.container .tabExplore {
+  /* .container used to increase specificity for overriding the header element */
   opacity: 100%;
 }
 
 .container .tabExplore::after {
   width: 100%;
   left: 0;
+}
+
+.hero {
+  height: 30vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.heroText {
+  font-weight: 400;
+}
+
+.interactiveHero {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.hero .submitButton {
+  width: 150px;
+  height: 55px;
+  background-color: #0F2A2B;
+}
+
+.hero .submitButton:hover {
+  background-color: #071616;
+}
+
+.hero .submitChildren {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.hero .searchBox {
+  width: 260px;
+  height: 55px;
+  font-size: 18px;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

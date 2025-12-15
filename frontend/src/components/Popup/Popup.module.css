@@ -1,0 +1,35 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.closeArea {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+}
+
+.modal {
+  z-index: 1000;
+  position: relative;
+  width: 35vw;
+  height: 42vh;
+  background-color: #f4f4f4;
+  border-radius: 20px;
+}
+
+.exitButton {
+  position: absolute;
+  right: 30px;
+  top: 25px;
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  stroke: black;
+  stroke-width: 2px;
+}
