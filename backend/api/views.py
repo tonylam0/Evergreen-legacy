@@ -1,5 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.decorators import api_view
 from rest_framework import status, generics, permissions
 from rest_framework.exceptions import PermissionDenied
 from django.conf import settings
@@ -33,6 +34,12 @@ def parse_duration(duration):
     seconds = int(match.group(3) or 0)
 
     return hours * 3600 + minutes * 60 + seconds
+
+@api_view(['GET'])
+def video_list(request):
+    videos = Video.objects.all()
+    serializer = VideoSerializer(videos, many=True)  # Converts videos to JSON
+    return Response(serializer.data)
 
 # Handles video submission requests
 class SubmitVideoView(APIView):

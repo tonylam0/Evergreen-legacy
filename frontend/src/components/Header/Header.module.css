@@ -31,95 +31,15 @@ a {
   margin-left: 25px;
 }
 
-.tabs {
-  position: absolute;
-  display: flex;
-  flex-direction: row;
-  gap: 26px;
-  font-size: 18px;
-  width: fit-content;
-  height: fit-content;
-  left: 0;
-  right: 0;
-  margin-inline: auto;
-}
-
-.tabName {
-  font-weight: 400;
-  cursor: pointer;
-  position: relative;
-  margin: 0;
-}
-
-.tabName::after {
-  position: absolute;
-  content: '';
-  width: 0%;
-  height: 2px;
-  background-color: #000000;
-  transition: width 0.3s ease 0s, left 0.3s ease 0s;
-  bottom: -3px;
-  left: 50%;
-}
-
-.tabName:hover::after {
-  width: 100%;
-  left: 0;
-}
-
-.tabExplore {
-  opacity: 50%;
-}
-
-.tabExplore:hover {
-  opacity: 100%;
-  transition: opacity .3s;
-}
-
-.tabEC {
-  opacity: 50%;
-}
-
-.tabEC:hover {
-  opacity: 100%;
-  transition: opacity .3s
-}
-
-.tabAbout {
-  opacity: 50%;
-}
-
-.tabAbout:hover {
-  opacity: 100%;
-  transition: opacity .3s;
-}
-
-.tabContact {
-  opacity: 50%;
-}
-
-.tabContact:hover {
-  opacity: 100%;
-  transition: opacity .3s
-}
-
-.tabSupport {
-  opacity: 50%;
-}
-
-.tabSupport:hover {
-  opacity: 100%;
-  transition: opacity .3s
-}
 
 .buttons {
   display: flex;
   flex-direction: row;
   right: 0;
   align-items: center;
-  margin-right: 25px;
   font-size: 20px;
-  gap: 10px;
+  margin-right: 20px;
+  gap: 13px;
   width: fit-content;
   height: fit-content;
 }
@@ -142,11 +62,73 @@ a {
   width: 130px;
 }
 
-@media (max-width: 480px) {}
+.menuButton {
+  height: 35px;
+  width: 35px;
+  cursor: pointer;
+}
 
-@media (max-width: 768px) {}
+.menuButton:hover {
+  opacity: .7;
+}
 
-@media (max-width: 1024px) {}
+.menuContainer {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999;
+}
+
+.closeArea {
+  position: fixed;
+  width: 100dvw;
+  height: 100dvh;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.sideMenu {
+  border-radius: 20px 0 0 0;
+  position: absolute;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+  height: 100%;
+  background-color: #f4f4f4;
+  padding: 40px 30px;
+  gap: 40px;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.exitButton {
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  stroke: black;
+  stroke-width: 2px;
+  align-self: flex-end;
+}
+
+.exitButton:hover {
+  opacity: .7;
+}
+
+.tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.tabName {
+  margin: 0;
+  font-size: 27px;
+  user-select: none;
+}
+
+.tabName:hover {
+  opacity: .7;
+}
 
 @media (max-width: 1440px) {
   .header {
@@ -156,12 +138,6 @@ a {
   .logo {
     font-size: 28px;
   }
-
-  .tabs {
-    font-size: 16px;
-    gap: 20px;
-  }
-
 
   .buttons {
     font-size: 18px;
@@ -177,3 +153,9 @@ a {
     height: 45px;
   }
 }
+
+@media (max-width: 480px) {}
+
+@media (max-width: 768px) {}
+
+@media (max-width: 1024px) {}

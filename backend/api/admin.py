@@ -12,10 +12,7 @@ class VideoAdmin(admin.ModelAdmin):
         'youtube_id', 
         'title', 
         'channel_name', 
-        'publish_date', 
-        'description',
-        'duration_seconds' ,
-        'thumbnail_url',
+        'publish_date', 'description', 'duration_seconds' , 'thumbnail_url',
         'submitted_by', 
         'submit_date',
         'is_approved'

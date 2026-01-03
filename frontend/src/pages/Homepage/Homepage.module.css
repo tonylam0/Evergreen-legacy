@@ -24,6 +24,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  margin: auto;
 }
 
 .heroText {
@@ -40,10 +41,12 @@
   width: 150px;
   height: 55px;
   background-color: #0F2A2B;
+  border: 1px solid #0F2A2B;
 }
 
 .hero .submitButton:hover {
   background-color: #071616;
+  border: #071616;
 }
 
 .hero .submitChildren {
@@ -129,11 +132,13 @@
 .submission .importButton {
   height: 60px;
   background-color: #0F2A2B;
+  border: 1px solid #0F2A2B;
   width: 125px;
 }
 
 .submission .importButton:hover {
   background-color: #071616;
+  border: 1px solid #071616
 }
 
 .submission .importChildren {
@@ -142,35 +147,57 @@
   user-select: none;
 }
 
-.menu {
-  display: flex;
-  justify-content: center;
+.videoSection {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  width: 95%;
+  height: fit-content;
+  margin: auto;
 }
 
-.buttonContainer {
-  display: flex;
-  flex-direction: row;
-  position: relative;
-  align-items: center;
-  gap: 7px;
+.video {
+  height: 74%;
+  overflow: hidden;
+  border-radius: 8px;
 }
 
-.menu .menuButton {
-  background-color: #0F2A2B;
-  width: 180px;
-  height: 60px;
-  border-radius: 20px;
+.thumbnail {
+  border-radius: 5px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
-.menu .menuButton:hover {
-  background-color: #071616;
+@media (max-width: 1600px) {
+  .hero {
+    margin-top: 40px;
+  }
+
+  .heroText {
+    font-size: 22px;
+  }
+
+
+  .hero .submitButton {
+    height: 50px;
+    width: 125px;
+  }
+
+  .hero .submitChildren {
+    font-size: 16px;
+  }
+
+  .hero .searchBox {
+    width: 300px;
+    height: 50px;
+    font-size: 16px;
+  }
 }
 
-.menu .menuChildren {
-  font-size: 20px;
-  font-weight: 400;
-}
+@media (max-width: 1024px) {}
 
-.menuArrow {
-  width: 15px;
-}
+@media (max-width: 768px) {}
+
+@media (max-width: 480px) {}
