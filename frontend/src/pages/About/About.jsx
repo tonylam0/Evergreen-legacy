@@ -5,7 +5,7 @@ function About() {
   return (
     <>
       <div className={styles.container}>
-        <Header tabAbout={styles.tabAbout}></Header>
+        <Header></Header>
         <div className={styles.text}>
           <h2 className={styles.title}>
             A message from our founder

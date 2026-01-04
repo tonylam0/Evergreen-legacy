@@ -6,7 +6,7 @@ function Support() {
   return (
     <>
       <div className={styles.container}>
-        <Header tabSupport={styles.tabSupport}></Header>
+        <Header></Header>
         <div className={styles.text}>
           <h2 className={styles.title}>
             Support Us

@@ -1,11 +1,16 @@
 .input {
-  height: 50px;
-  width: 300px;
   box-sizing: border-box;
-  border-radius: 5px;
   border: 1px solid #4B544B;
   background-color: rgba(233, 233, 233, .75);
   font-size: 15px;
   font-family: "Inria Sans";
   padding: 10px;
+}
+
+.input:focus {
+  outline: none;
+}
+
+.input::placeholder {
+  user-select: none;
 }

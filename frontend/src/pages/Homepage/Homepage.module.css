@@ -7,16 +7,6 @@
   font-family: "Inria Sans";
 }
 
-.container .tabExplore {
-  /* .container used to increase specificity for overriding the header element */
-  opacity: 100%;
-}
-
-.container .tabExplore::after {
-  width: 100%;
-  left: 0;
-}
-
 .hero {
   height: 30vh;
   width: 100vw;
@@ -61,10 +51,6 @@
   font-size: 18px;
   padding-left: 12px;
   padding-right: 40px;
-}
-
-.hero .searchBox:focus {
-  outline: none;
 }
 
 .modal {
@@ -113,10 +99,6 @@
   font-size: 21px;
   padding: 0px 15px;
   border-radius: 7px;
-}
-
-.submission .importInput:focus {
-  outline: none;
 }
 
 .searchIcon {

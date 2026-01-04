@@ -35,15 +35,6 @@
   text-align: justify;
 }
 
-.container .tabAbout {
-  opacity: 100%;
-}
-
-.container .tabAbout::after {
-  width: 100%;
-  left: 0;
-}
-
 @media (max-width: 480px) {}
 
 @media (max-width: 768px) {}

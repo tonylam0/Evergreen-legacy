@@ -6,15 +6,6 @@
   font-family: "Inria Sans";
 }
 
-.container .tabSupport {
-  opacity: 100%;
-}
-
-.container .tabSupport::after {
-  width: 100%;
-  left: 0;
-}
-
 .text {
   height: 100vh;
   display: flex;

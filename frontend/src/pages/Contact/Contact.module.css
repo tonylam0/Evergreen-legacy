@@ -4,15 +4,7 @@
   height: 100vh;
   overflow: hidden;
   font-family: "Inria Sans";
-}
-
-.container .tabContact {
-  opacity: 100%;
-}
-
-.container .tabContact::after {
-  width: 100%;
-  left: 0;
+  display: flex;
 }
 
 .mainBox {
@@ -44,15 +36,12 @@
   justify-content: center;
   gap: 7px;
   width: 350px;
-  margin-bottom: 100px;
 }
 
 .form .input {
   width: 100%;
-}
-
-.form .input:focus {
-  outline: none;
+  height: 50px;
+  border-radius: 5px;
 }
 
 .nameInputs {
@@ -78,23 +67,37 @@
   resize: none;
   overflow: auto;
   scrollbar-width: none;
-  -ms-overflow-style: none;
 }
 
 .messageBox::-webkit-scrollbar {
   display: none;
 }
 
-.messageBox:focus {
-  outline: none;
-}
-
 .buttonBase {
+  font-size: 16px;
+  font-weight: 700;
+  font-family: "Inria Sans";
+  border: 1px solid #4B544B;
+  border-radius: 5px;
+  cursor: pointer;
+  box-sizing: border-box;
   width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
 }
 
-.childrenStyle {
-  font-weight: 700;
+.buttonGreen {
+  background-color: #4B544B;
+  color: #f4f4f4;
+}
+
+.buttonGreen:hover {
+  background-color: #404740;
+  border-color: #404740;
+  color: #eae8e8;
 }
 
 @media (max-width: 480px) {}

@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import styles from './Header.module.css'
-import Button from '../Button/Button.jsx'
 import { IoIosMenu } from "react-icons/io";
 import { Link } from 'react-router-dom'
 import ExitButton from '../../assets/x.svg?react'
+import InputBox from '../InputBox/InputBox.jsx'
+import SearchIcon from '../../assets/search.svg?react'
+import SubmitIcon from '../../assets/submit.svg?react'
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -19,22 +21,16 @@ const Header = () => {
   return (
     <>
       <div className={styles.header}>
-        <Link to={"/"} className={styles.logoLink}>
+        <Link to={"/"} className={styles.logoLink} reloadDocument>
           <h2 id="logo" className={styles.logo}>EVERGREEN</h2>
         </Link>
 
-        <div className={styles.buttons}>
-          <Link to={"/signup"}>
-            <Button variant={styles.buttonTransparent}>
-              Sign Up
-            </Button>
-          </Link>
 
-          <Link to={"/login"}>
-            <Button overrideStyle={styles.buttonGreen}>
-              Log in
-            </Button>
-          </Link>
+        <div className={styles.navRight}>
+          <div className={styles.searchContainer}>
+            <SearchIcon className={styles.searchIcon}></SearchIcon>
+            <InputBox input={styles.searchBar} type="text" placeholder="Search"></InputBox>
+          </div>
 
           <IoIosMenu className={styles.menuButton} onClick={openMenu} />
         </div>
@@ -45,26 +41,33 @@ const Header = () => {
             <ExitButton className={styles.exitButton} onClick={openMenu} />
 
             <div className={styles.tabs}>
-              <Link to={"/"}>
-                <h2 className={styles.tabName}>Explore</h2>
+              <Link to={"/"} reloadDocument>
+                <h2 className={styles.tabName}>Home</h2>
               </Link>
 
-              <Link to={"/evergreen-collection"}>
+              <Link to={"/evergreen-collection"} reloadDocument>
                 <h2 className={styles.tabName}>Evergreen Collection</h2>
               </Link>
 
-              <Link to={"/about"}>
+              <Link to={"/about"} reloadDocument>
                 <h2 className={styles.tabName}>About</h2>
               </Link>
 
-              <Link to={"/contact"}>
+              <Link to={"/contact"} reloadDocument>
                 <h2 className={styles.tabName}>Contact</h2>
               </Link>
 
+              <Link to={"/signup"} reloadDocument>
+                <h2 className={styles.tabName}>Sign up</h2>
+              </Link>
+
+              <Link to={"/login"} reloadDocument>
+                <h2 className={styles.tabName}>Log in</h2>
+              </Link>
             </div>
           </div>
         </div>}
-      </div>
+      </div >
     </>
   )
 }

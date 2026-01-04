@@ -51,14 +51,11 @@
 }
 
 .input {
+  height: 50px;
   width: 100%;
   padding-left: 35px;
   display: flex;
   align-items: center;
-}
-
-.input:focus {
-  outline: none;
 }
 
 .hidePassword {
@@ -141,26 +138,53 @@
   gap: 5px;
 }
 
-.oauthButton {
-  width: 100%;
+.buttonBase {
+  font-size: 16px;
+  font-weight: 700;
+  font-family: "Inria Sans";
+  border: 1px solid #4B544B;
+  cursor: pointer;
+  box-sizing: border-box;
+  width: 350px;
+  height: 45px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.buttons .buttonTransparent {
+.oauthButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 400;
+}
+
+.buttonTransparent {
   background-color: transparent;
   border: 1px solid #4B544B;
   border-radius: 1px;
   color: black;
   cursor: pointer;
   flex-direction: row;
+  gap: 5px;
 }
 
-.buttons .buttonTransparent:hover {
+.buttonTransparent:hover {
   background-color: #eae8e8;
   border-color: #404740;
   color: #404740;
+}
+
+.buttonGreen {
+  background-color: #4B544B;
+  color: #f4f4f4;
+}
+
+.buttonGreen:hover {
+  background-color: #404740;
+  border-color: #404740;
+  color: #eae8e8;
 }
 
 .oauthLogo {
@@ -169,10 +193,6 @@
 }
 
 .oauthText {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
   font-weight: 400;
 }
 

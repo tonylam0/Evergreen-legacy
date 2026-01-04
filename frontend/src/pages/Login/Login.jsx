@@ -2,9 +2,7 @@ import { useState } from 'react'
 import styles from './Login.module.css'
 import Logo from '../../assets/logo.svg?react'
 import InputBox from '../../components/InputBox/InputBox.jsx'
-import Button from '../../components/Button/Button.jsx'
 import Email from '../../assets/email.svg?react'
-import Username from '../../assets/username.svg?react'
 import Lock from '../../assets/lock.svg?react'
 import Show from '../../assets/show.svg?react'
 import Unshow from '../../assets/unshow.svg?react'
@@ -46,8 +44,7 @@ function Login() {
             <button className={styles.showIcon} onClick={updatePassword} type="button">{passwordIcon}</button>
           </div>
 
-          <Button>Log in</Button>
-
+          <button className={`${styles.buttonBase} ${styles.buttonGreen}`}>Log in</button>
         </form >
 
 
@@ -60,17 +57,17 @@ function Login() {
 
           <div className={styles.buttons}>
             <div className={styles.oauthButton}>
-              <Button childrenStyle={styles.oauthText} variant={styles.buttonTransparent}>
+              <button className={`${styles.buttonBase} ${styles.buttonTransparent}`}>
                 <AppleLogo className={styles.oauthLogo}></AppleLogo>
-                Continue with Apple
-              </Button>
+                <p className={styles.oauthText}>Continue with Apple</p>
+              </button>
             </div>
 
             <div className={styles.oauthButton}>
-              <Button childrenStyle={styles.oauthText} variant={styles.buttonTransparent}>
+              <button className={`${styles.buttonBase} ${styles.buttonTransparent}`}>
                 <GoogleLogo className={styles.oauthLogo}></GoogleLogo>
-                Continue with Google
-              </Button>
+                <p className={styles.oauthText}>Continue with Google</p>
+              </button>
             </div>
           </div>
         </div>

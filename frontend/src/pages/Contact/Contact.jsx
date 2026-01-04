@@ -1,13 +1,12 @@
 import styles from './Contact.module.css'
 import Header from '../../components/Header/Header'
 import InputBox from '../../components/InputBox/InputBox.jsx'
-import Button from '../../components/Button/Button.jsx'
 
 function Contact() {
   return (
     <>
       <div className={styles.container}>
-        <Header tabContact={styles.tabContact}></Header>
+        <Header></Header>
         <div className={styles.mainBox}>
           <h1 className={styles.title}>Get in touch!</h1>
           <p className={styles.paragraph}>
@@ -20,9 +19,9 @@ function Contact() {
             </div>
             <InputBox input={styles.input} type="text" name="email" placeholder="Enter your email"></InputBox>
             <textarea className={styles.messageBox} placeholder="Leave us a message"></textarea>
-            <Button overrideStyle={styles.buttonBase} childrenStyle={styles.childrenStyle}>
-              Send message
-            </Button>
+            <button className={`${styles.buttonBase} ${styles.buttonGreen}`}>
+              <p className={styles.buttonText}>Send message</p>
+            </button>
           </form>
         </div >
       </div >
