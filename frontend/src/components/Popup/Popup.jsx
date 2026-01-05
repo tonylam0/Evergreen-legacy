@@ -9,8 +9,8 @@ const Popup = ({ updateCallback, overrideStyle, children }) => {
         <div className={`${styles.modal} ${overrideStyle}`}>
           <ExitButton onClick={updateCallback} className={styles.exitButton}/>
         {children}
-      </div>
-    </div >
+        </div>
+      </div >
     </>
   )
 }

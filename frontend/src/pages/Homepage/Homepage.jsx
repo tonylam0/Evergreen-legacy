@@ -9,7 +9,6 @@ import Arrow from '../../assets/arrow.svg?react'
 
 function Homepage() {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [videos, setVideos] = useState()
 
   const openModal = () => {

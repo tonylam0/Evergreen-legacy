@@ -12,6 +12,7 @@
   width: 100vw;
   height: 100vh;
   position: absolute;
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
 .modal {
@@ -27,8 +28,8 @@
 
 .exitButton {
   position: absolute;
-  right: 30px;
-  top: 25px;
+  right: 35px;
+  top: 30px;
   width: 22px;
   height: 22px;
   cursor: pointer;

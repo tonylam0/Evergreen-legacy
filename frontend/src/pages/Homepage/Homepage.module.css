@@ -80,10 +80,8 @@
 }
 
 .title {
-  font-family: "Poppins";
   font-size: 50px;
   color: #0F2A2B;
-  margin-bottom: 20px;
 }
 
 .searchBar {
@@ -99,16 +97,6 @@
   font-size: 21px;
   padding: 0px 15px;
   border-radius: 7px;
-}
-
-.searchIcon {
-  position: absolute;
-  right: 0;
-  width: 20px;
-  height: 20px;
-  opacity: 60%;
-  padding-right: 15px;
-  cursor: pointer;
 }
 
 .submission .importButton {

@@ -5,10 +5,22 @@ import { Link } from 'react-router-dom'
 import ExitButton from '../../assets/x.svg?react'
 import InputBox from '../InputBox/InputBox.jsx'
 import SearchIcon from '../../assets/search.svg?react'
-import SubmitIcon from '../../assets/submit.svg?react'
+import PlusIcon from '../../assets/plus.svg?react'
+import Popup from '../../components/Popup/Popup.jsx'
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const openModal = () => {
+    if (!isModalOpen) {
+      setIsModalOpen(true)
+    }
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+  }
 
   const openMenu = () => {
     if (isMenuOpen) {
@@ -25,8 +37,11 @@ const Header = () => {
           <h2 id="logo" className={styles.logo}>EVERGREEN</h2>
         </Link>
 
-
         <div className={styles.navRight}>
+          <button className={styles.submitButton} onClick={openModal} aria-label='Submit new video'>
+            <PlusIcon className={styles.submitIcon} />
+          </button>
+
           <div className={styles.searchContainer}>
             <SearchIcon className={styles.searchIcon}></SearchIcon>
             <InputBox input={styles.searchBar} type="text" placeholder="Search"></InputBox>
@@ -67,6 +82,22 @@ const Header = () => {
             </div>
           </div>
         </div>}
+
+        {isModalOpen && <div className={styles.modalContainer}>
+          <Popup updateCallback={closeModal} overrideStyle={styles.modal}>
+            <div className={styles.popupContent}>
+              <h1 className={styles.title}>Submit a video</h1>
+              <p className={styles.submitDescription}>Submit your favorite video essays from YouTube</p>
+
+              <div className={styles.submission}>
+                <InputBox input={styles.importInput} placeholder="Paste a YouTube link"></InputBox>
+                <button className={styles.importButton}>Import</button>
+              </div>
+            </div>
+          </Popup>
+        </div>
+        }
+
       </div >
     </>
   )
