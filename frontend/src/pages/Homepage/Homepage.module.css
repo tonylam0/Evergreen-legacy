@@ -7,164 +7,33 @@
   font-family: "Inria Sans";
 }
 
-.hero {
-  height: 30vh;
-  width: 100vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  margin: auto;
-}
-
-.heroText {
-  font-weight: 400;
-}
-
-.interactiveHero {
-  display: flex;
-  flex-direction: row;
-  gap: 5px;
-}
-
-.hero .submitButton {
-  width: 150px;
-  height: 55px;
-  background-color: #0F2A2B;
-  border: 1px solid #0F2A2B;
-}
-
-.hero .submitButton:hover {
-  background-color: #071616;
-  border: #071616;
-}
-
-.hero .submitChildren {
-  font-size: 18px;
-  font-weight: 400;
-  user-select: none;
-}
-
-.hero .searchBox {
-  width: 325px;
-  height: 55px;
-  font-size: 18px;
-  padding-left: 12px;
-  padding-right: 40px;
-}
-
-.modal {
-  position: fixed;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.popupContent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 40px;
-  width: 35vw;
-  height: 42vh;
-}
-
-.submission {
-  display: flex;
-  flex-direction: row;
-  gap: 5px;
-}
-
-.title {
-  font-size: 50px;
-  color: #0F2A2B;
-}
-
-.searchBar {
-  display: flex;
-  flex-direction: row;
-  position: relative;
-  align-items: center;
-}
-
-.submission .importInput {
-  height: 60px;
-  width: 450px;
-  font-size: 21px;
-  padding: 0px 15px;
-  border-radius: 7px;
-}
-
-.submission .importButton {
-  height: 60px;
-  background-color: #0F2A2B;
-  border: 1px solid #0F2A2B;
-  width: 125px;
-}
-
-.submission .importButton:hover {
-  background-color: #071616;
-  border: 1px solid #071616
-}
-
-.submission .importChildren {
-  font-weight: 400;
-  font-size: 21px;
-  user-select: none;
-}
-
 .videoSection {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  width: 95%;
-  height: fit-content;
-  margin: auto;
-}
-
-.video {
-  height: 74%;
+  padding-top: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
   overflow: hidden;
-  border-radius: 8px;
+  width: 100%;
 }
 
 .thumbnail {
-  border-radius: 5px;
-  width: 100%;
-  height: 100%;
+  width: 36vw;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
-  object-position: center;
+  border-radius: 8px;
 }
 
-@media (max-width: 1600px) {
-  .hero {
-    margin-top: 40px;
-  }
-
-  .heroText {
-    font-size: 22px;
-  }
-
-
-  .hero .submitButton {
-    height: 50px;
-    width: 125px;
-  }
-
-  .hero .submitChildren {
-    font-size: 16px;
-  }
-
-  .hero .searchBox {
-    width: 300px;
-    height: 50px;
-    font-size: 16px;
-  }
+.videoTitle {
+  margin-top: 10px;
+  margin-bottom: 5px;
 }
+
+.channelName {
+  margin: 0;
+}
+
+@media (max-width: 1600px) {}
 
 @media (max-width: 1024px) {}
 

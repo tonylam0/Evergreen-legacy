@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import axios from 'axios'
 import styles from './SignUp.module.css'
 import Logo from '../../assets/logo.svg?react'
 import InputBox from '../../components/InputBox/InputBox'
@@ -9,13 +10,20 @@ import Show from '../../assets/show.svg?react'
 import Unshow from '../../assets/unshow.svg?react'
 import AppleLogo from '../../assets/apple.svg?react'
 import GoogleLogo from '../../assets/google.svg?react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function SignUp() {
+  const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState("password")
   const [passwordIcon, setPasswordIcon] = useState(Unshow)
-  const passwordStyle = showPassword === "password" ? styles.hidePassword : styles.showPassword
+  const [formData, setFormData] = useState({
+    "email": "",
+    "username": "",
+    "password1": "",
+    "password2": ""
+  })
 
+  const passwordStyle = showPassword === "password" ? styles.hidePassword : styles.showPassword
   const updatePassword = () => {
     if (showPassword === "password") {
       setShowPassword("text")
@@ -26,27 +34,59 @@ function SignUp() {
     }
   }
 
+  const handleChange = (event) => {
+    const { name, value } = event.target  // Destructure the user input
+
+    // Accounts for the registration requiring a password confirmation
+    if (name == "password") {
+      setFormData({
+        ...formData,
+        password1: value,
+        password2: value,
+      })
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value  // Only update the field that was changed
+      })
+    }
+  }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await axios.post("http://localhost:8000/api-auth/registration/", formData)
+      console.log("success", response.data)
+      navigate("/")
+    } catch (error) {
+      console.log("error", error.response.data)
+    }
+
+    console.log(formData)
+  }
+
   return (
     <>
-      <div className={styles.container}>
+      <div className={styles.container} >
         <Logo className={styles.logo}></Logo>
         <h1 className={styles.title}>Welcome to Evergreen!</h1>
         <p className={styles.message}>Discover memorable and long-lasting video essays</p>
 
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.inputContainer}>
             <Email className={styles.icon}></Email>
-            <InputBox input={styles.input} type="email" name="email" placeholder="Email"></InputBox>
+            <InputBox input={styles.input} type="email" name="email" placeholder="Email" onChange={handleChange}></InputBox>
           </div>
 
           <div className={styles.inputContainer}>
             <Username className={styles.icon}></Username>
-            <InputBox input={styles.input} type="text" name="username" placeholder="Create a username"></InputBox>
+            <InputBox input={styles.input} type="text" name="username" placeholder="Create a username" onChange={handleChange}></InputBox>
           </div>
 
           <div className={styles.inputContainer}>
             <Lock className={styles.icon}></Lock>
-            <InputBox input={`${styles.input} ${passwordStyle}`} type={showPassword} name="password" placeholder="Create a password"></InputBox>
+            <InputBox input={`${styles.input} ${passwordStyle}`} type={showPassword} name="password" placeholder="Create a password" onChange={handleChange}></InputBox>
             <button className={styles.showIcon} onClick={updatePassword} type="button">{passwordIcon}</button>
           </div>
 

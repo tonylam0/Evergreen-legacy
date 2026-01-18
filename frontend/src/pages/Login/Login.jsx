@@ -14,6 +14,11 @@ function Login() {
   const [showPassword, setShowPassword] = useState("password")
   const [passwordIcon, setPasswordIcon] = useState(Unshow)
   const passwordStyle = showPassword === "password" ? styles.hidePassword : styles.showPassword
+  const [formData, setFormData] = useState({
+    "email": "",
+    "username": "",
+    "password": ""
+  })
 
   const updatePassword = () => {
     if (showPassword === "password") {
@@ -22,6 +27,24 @@ function Login() {
     } else {
       setShowPassword("password")
       setPasswordIcon(Unshow)
+    }
+  }
+
+  const handleChange = (e) => {
+    const { name, value } = e.target  // Destructure the user input
+
+    setFormData({
+      ...formData,
+      [name]: value  // Only update the field that was changed
+    })
+  }
+
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.post("http://localhost:8000/api-auth/registration/")
+      console.log("success", response.data)
+    } catch (error) {
+      console.log("error", error.response.data)
     }
   }
 

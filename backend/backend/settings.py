@@ -44,7 +44,6 @@ REST_AUTH = {
     'USE_JWT': True,
     'JWT_AUTH_COOKIE': 'my-auth-cookie',  # Optional: Name of the cookie to store the JWT
     'JWT_AUTH_REFRESH_COOKIE': 'my-refresh-cookie',  # Optional: Name of the cookie to store the refresh token
-    'REGISTER_SERIALIZER': 'dj_rest_auth.registration.serializers.RegisterSerializer',
 }
 
 # Application definition
@@ -182,6 +181,6 @@ CORS_ALLOWED_ORIGINS = [
 SITE_ID = 1
 
 ACCOUNT_LOGIN_METHODS = ['email'] 
-ACCOUNT_SIGNUP_FIELDS = ['username*', 'email*', 'password1*', 'password2*']  # Ensures that email is required for signup
+ACCOUNT_SIGNUP_FIELDS = ['username*', 'email*']  # Ensures that email is required for signup
 ACCOUNT_EMAIL_VERIFICATION = 'none' # Or 'mandatory'
 ACCOUNT_UNIQUE_EMAIL = True
