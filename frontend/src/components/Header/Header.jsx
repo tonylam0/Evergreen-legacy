@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import styles from './Header.module.css'
 import { IoIosMenu } from "react-icons/io";
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../AuthProvider.jsx';
 import ExitButton from '../../assets/x.svg?react'
 import InputBox from '../InputBox/InputBox.jsx'
 import SearchIcon from '../../assets/search.svg?react'
@@ -11,10 +12,16 @@ import Popup from '../../components/Popup/Popup.jsx'
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   const openModal = () => {
-    if (!isModalOpen) {
-      setIsModalOpen(true)
+    if (user) {
+      if (!isModalOpen) {
+        setIsModalOpen(true)
+      }
+    } else {
+      navigate("/login")
     }
   }
 
@@ -72,13 +79,20 @@ const Header = () => {
                 <h2 className={styles.tabName}>Contact</h2>
               </Link>
 
-              <Link to={"/signup"} reloadDocument>
-                <h2 className={styles.tabName}>Sign up</h2>
-              </Link>
+              {user ? (
+                <h2 className={styles.tabName} onClick={logout}>Log out</h2>
+              ) : (
+                <div className={styles.authTabs}>
+                  <Link to={"/signup"} reloadDocument>
+                    <h2 className={styles.tabName}>Sign up</h2>
+                  </Link>
 
-              <Link to={"/login"} reloadDocument>
-                <h2 className={styles.tabName}>Log in</h2>
-              </Link>
+                  <Link to={"/login"} reloadDocument>
+                    <h2 className={styles.tabName}>Log in</h2>
+                  </Link>
+                </div>
+              )
+              }
             </div>
           </div>
         </div>}

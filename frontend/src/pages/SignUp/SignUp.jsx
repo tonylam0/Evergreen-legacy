@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import axios from 'axios'
+import { useAuth } from '../../components/AuthProvider.jsx'
+import api from '../../api/api.js'
 import styles from './SignUp.module.css'
 import Logo from '../../assets/logo.svg?react'
 import InputBox from '../../components/InputBox/InputBox'
@@ -14,6 +15,8 @@ import { Link, useNavigate } from 'react-router-dom'
 
 function SignUp() {
   const navigate = useNavigate()
+  const { user, login } = useAuth();
+
   const [showPassword, setShowPassword] = useState("password")
   const [passwordIcon, setPasswordIcon] = useState(Unshow)
   const [formData, setFormData] = useState({
@@ -56,14 +59,13 @@ function SignUp() {
     event.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:8000/api-auth/registration/", formData)
-      console.log("success", response.data)
+      const response = await api.post("api-auth/registration/", formData)
+      await login(formData.email, formData.password1);
       navigate("/")
+      console.log(user)
     } catch (error) {
       console.log("error", error.response.data)
     }
-
-    console.log(formData)
   }
 
   return (

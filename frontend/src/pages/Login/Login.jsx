@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useAuth } from '../../components/AuthProvider.jsx'
 import styles from './Login.module.css'
 import Logo from '../../assets/logo.svg?react'
 import InputBox from '../../components/InputBox/InputBox.jsx'
@@ -8,15 +9,17 @@ import Show from '../../assets/show.svg?react'
 import Unshow from '../../assets/unshow.svg?react'
 import AppleLogo from '../../assets/apple.svg?react'
 import GoogleLogo from '../../assets/google.svg?react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function Login() {
+  const navigate = useNavigate()
+  const { user, login } = useAuth();
+
   const [showPassword, setShowPassword] = useState("password")
   const [passwordIcon, setPasswordIcon] = useState(Unshow)
   const passwordStyle = showPassword === "password" ? styles.hidePassword : styles.showPassword
   const [formData, setFormData] = useState({
     "email": "",
-    "username": "",
     "password": ""
   })
 
@@ -30,8 +33,8 @@ function Login() {
     }
   }
 
-  const handleChange = (e) => {
-    const { name, value } = e.target  // Destructure the user input
+  const handleChange = (event) => {
+    const { name, value } = event.target  // Destructure the user input
 
     setFormData({
       ...formData,
@@ -39,12 +42,14 @@ function Login() {
     })
   }
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
     try {
-      const response = await axios.post("http://localhost:8000/api-auth/registration/")
-      console.log("success", response.data)
+      await login(formData.email, formData.password);
+      navigate("/")
     } catch (error) {
-      console.log("error", error.response.data)
+      console.log("Error Data:", error.response?.data || "Network Error");
     }
   }
 
@@ -55,15 +60,15 @@ function Login() {
         <h1 className={styles.title}>Welcome back to Evergreen!</h1>
         <p className={styles.message}>Discover memorable and long-lasting video essays</p>
 
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.inputContainer}>
             <Email className={styles.icon}></Email>
-            <InputBox input={styles.input} type="email" name="email" placeholder="Email"></InputBox>
+            <InputBox input={styles.input} type="email" name="email" placeholder="Email" onChange={handleChange}></InputBox>
           </div>
 
           <div className={styles.inputContainer}>
             <Lock className={styles.icon}></Lock>
-            <InputBox input={`${styles.input} ${passwordStyle}`} type={showPassword} name="password" placeholder="Password"></InputBox>
+            <InputBox input={`${styles.input} ${passwordStyle}`} type={showPassword} name="password" placeholder="Password" onChange={handleChange}></InputBox>
             <button className={styles.showIcon} onClick={updatePassword} type="button">{passwordIcon}</button>
           </div>
 

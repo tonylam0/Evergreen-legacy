@@ -6,6 +6,7 @@ import Support from './pages/Support/Support.jsx'
 import Contact from './pages/Contact/Contact.jsx'
 import SignUp from './pages/SignUp/SignUp.jsx'
 import Login from './pages/Login/Login.jsx'
+import PrivateRoute from './components/PrivateRoute.jsx'
 
 function App() {
   const element = useRoutes([
@@ -15,6 +16,13 @@ function App() {
     { path: '/contact', element: <Contact /> },
     { path: '/signup', element: <SignUp /> },
     { path: '/login', element: <Login /> },
+
+    // Protected routes
+    {
+      element: <PrivateRoute />,
+      children: [
+      ]
+    }
   ])
 
   return (

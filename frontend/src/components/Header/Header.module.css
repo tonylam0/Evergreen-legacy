@@ -163,6 +163,12 @@ a {
   gap: 20px;
 }
 
+.authTabs {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 .tabName {
   margin: 0;
   font-size: 27px;

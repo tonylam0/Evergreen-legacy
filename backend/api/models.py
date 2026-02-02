@@ -3,9 +3,9 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 
-class CustomUser(AbstractUser):
-    # Allows users to bypass submission checking
+class CustomUser(AbstractUser): # Allows users to bypass submission checking
     is_trusted_curator = models.BooleanField(default=False)
+    email = models.EmailField(unique=True)
 
     def __str__(self):
         return self.username

@@ -9,11 +9,9 @@ function Homepage() {
   useEffect(() => {
     axios.get('http://localhost:8000/api/videos/')
       .then(response => {
-        console.log(response.data)
         setVideos(response.data)
       })
       .catch(error => {
-        console.log('bow')
         console.log(error.data)
       })
   }, [])

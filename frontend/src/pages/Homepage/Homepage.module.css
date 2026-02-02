@@ -8,25 +8,32 @@
 }
 
 .videoSection {
-  padding-top: 10vh;
+  padding-top: 15vh;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 20px;
   overflow: hidden;
-  width: 100%;
+  width: 80%;
+}
+
+.video {
+  width: 30vw;
 }
 
 .thumbnail {
-  width: 36vw;
+  width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .videoTitle {
-  margin-top: 10px;
+  margin-top: 7px;
   margin-bottom: 5px;
+  width: 100%;
+  cursor: pointer;
 }
 
 .channelName {

@@ -1,5 +1,7 @@
+from django.http import response
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework.decorators import api_view
 from rest_framework import status, generics, permissions
 from rest_framework.exceptions import PermissionDenied
@@ -201,3 +203,23 @@ class VideoSaveView(APIView):
             return Response({"message": "Video is saved!"}, status=status.HTTP_201_CREATED)
         except: 
             return Response({"error": "Error occured while trying to save video"}, status=status.HTTP_400_BAD_REQUEST)
+
+class CustomTokenObtainView(TokenRefreshView):
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+
+        # Pull out the refresh token out of the standard response data
+        refresh_token = response.data['refresh']
+
+        response.set_cookie(
+            key='refresh_token',
+            value=refresh_token,
+            httponly=True,
+            secure=True,
+            samesite='Lax',  # Protects against CSRF
+            path='/api/token/refresh/'
+        )
+
+        del response.data['refresh']  # Remove the refresh token from the response
+
+        return response

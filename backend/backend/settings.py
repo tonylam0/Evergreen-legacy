@@ -12,7 +12,7 @@ load_dotenv()
 SECRET_KEY = os.getenv('SECRET_KEY')
 YOUTUBE_API_KEY = os.getenv('YOUTUBE_API_KEY')
 
-# Safe way to handle
+# Safe way to handle debug
 DEBUG = os.getenv('DEBUG') == 'TRUE'
 
 # List of domain names that this django site can serve
@@ -44,6 +44,8 @@ REST_AUTH = {
     'USE_JWT': True,
     'JWT_AUTH_COOKIE': 'my-auth-cookie',  # Optional: Name of the cookie to store the JWT
     'JWT_AUTH_REFRESH_COOKIE': 'my-refresh-cookie',  # Optional: Name of the cookie to store the refresh token
+    'REGISTER_SERIALIZER': 'api.serializers.CustomRegisterSerializer',
+    'LOGIN_SERIALIZER': 'api.serializers.CustomLoginSerializer',
 }
 
 # Application definition
@@ -184,3 +186,4 @@ ACCOUNT_LOGIN_METHODS = ['email']
 ACCOUNT_SIGNUP_FIELDS = ['username*', 'email*']  # Ensures that email is required for signup
 ACCOUNT_EMAIL_VERIFICATION = 'none' # Or 'mandatory'
 ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_CONFIRM_PASSWORD_SETTING = False
