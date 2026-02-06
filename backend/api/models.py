@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db.models import Avg
 
 
 class CustomUser(AbstractUser): # Allows users to bypass submission checking
@@ -27,15 +28,20 @@ class Video(models.Model):
     # Moderation flag to make video public
     is_approved = models.BooleanField(default=False)
 
+    reviews: models.QuerySet['Review']
+    def get_avg_rating(self):
+        result = self.reviews.aggregate(Avg('rating'))['rating__avg']
+        return result or None
+
     def __str__(self):
         return self.title
-    
+
 class Review(models.Model):
     author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="reviews")
     video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name="reviews")
     review_text = models.TextField(blank=True, default="")
     created_at = models.DateTimeField(auto_now_add=True)
-    rating = models.IntegerField(
+    rating = models.FloatField(
         validators=[MinValueValidator(1), MaxValueValidator(6)]
     )
 

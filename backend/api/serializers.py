@@ -5,9 +5,17 @@ from .models import CustomUser, Video, Review
 
 # Validates incoming video submission data and converts it into/from JSON
 class VideoSerializer(serializers.ModelSerializer):
+    average_rating = serializers.SerializerMethodField()
+
     class Meta:
         model = Video
         fields = '__all__'
+
+    def get_average_rating(self, obj):
+        rating = obj.get_avg_rating()
+        if rating is not None:
+            return f"{float(rating):.1f}"  # ":.1f" forces 1 decimal place even for whole numbers
+        return None
 
 # For reviews
 class ReviewSerializer(serializers.ModelSerializer):
