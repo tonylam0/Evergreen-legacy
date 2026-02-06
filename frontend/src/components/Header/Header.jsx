@@ -48,6 +48,7 @@ const Header = () => {
       try {
         const response = await api.post("api/submit-video/", videoLink)
         console.log("success", response)
+        window.location.reload(); 
       } catch (error) {
         console.log("error", error.response.data)
         console.log(videoLink)

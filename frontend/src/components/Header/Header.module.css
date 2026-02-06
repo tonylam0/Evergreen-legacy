@@ -7,6 +7,7 @@
   height: 7vh;
   position: fixed;
   background-color: #f4f4f4;
+  z-index: 999;
 }
 
 a {
@@ -119,7 +120,6 @@ a {
   top: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 999;
 }
 
 .closeArea {
