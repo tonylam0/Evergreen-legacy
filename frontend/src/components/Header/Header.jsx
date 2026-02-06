@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import styles from './Header.module.css'
 import { IoIosMenu } from "react-icons/io";
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../AuthProvider.jsx';
+import api from "../../api/api.js"
+import styles from './Header.module.css'
 import ExitButton from '../../assets/x.svg?react'
 import InputBox from '../InputBox/InputBox.jsx'
 import SearchIcon from '../../assets/search.svg?react'
@@ -10,10 +11,13 @@ import PlusIcon from '../../assets/plus.svg?react'
 import Popup from '../../components/Popup/Popup.jsx'
 
 const Header = () => {
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const { user, logout } = useAuth();
-  const navigate = useNavigate();
+  const [videoLink, setVideoLink] = useState({
+    "url": ""
+  })
 
   const openModal = () => {
     if (user) {
@@ -35,6 +39,30 @@ const Header = () => {
     } else {
       setIsMenuOpen(true)
     }
+  }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (user) {
+      try {
+        const response = await api.post("api/submit-video/", videoLink)
+        console.log("success", response)
+      } catch (error) {
+        console.log("error", error.response.data)
+        console.log(videoLink)
+        console.log(user)
+      }
+    } else {
+      navigate("/login")
+    }
+  }
+
+  const handleChange = (event) => {
+    const { name, value } = event.target
+    setVideoLink({
+      [name]: value
+    })
   }
 
   return (
@@ -104,12 +132,14 @@ const Header = () => {
               <p className={styles.submitDescription}>Submit your favorite video essays from YouTube</p>
 
               <div className={styles.submission}>
-                <InputBox input={styles.importInput} placeholder="Paste a YouTube link"></InputBox>
-                <button className={styles.importButton}>Import</button>
+                <form onSubmit={handleSubmit} className={styles.submitForm}>
+                  <InputBox input={styles.importInput} name="url" placeholder="Paste a YouTube link" onChange={handleChange}></InputBox>
+                  <button className={styles.importButton}>Import</button>
+                </form>
               </div>
             </div>
           </Popup>
-        </div>
+        </div >
         }
       </div >
     </>

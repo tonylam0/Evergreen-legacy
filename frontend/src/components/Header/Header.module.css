@@ -6,6 +6,7 @@
   width: 100vw;
   height: 7vh;
   position: fixed;
+  background-color: #f4f4f4;
 }
 
 a {
@@ -214,7 +215,7 @@ a {
   opacity: .6;
 }
 
-.submission {
+.submitForm {
   display: flex;
   flex-direction: row;
   gap: 5px;

@@ -11,5 +11,5 @@ urlpatterns = [
     path('delete-review/<int:pk>/', DeleteReviewView.as_view(), name='delete-review'), 
     path('videos/', video_list, name='video_list'), 
     path('token/', CustomTokenObtainView.as_view(), name='token_obtain_pair'), 
-    path('token/refresh', TokenRefreshView.as_view(), name='token_refresh'), 
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'), 
 ]
