@@ -7,9 +7,8 @@
 }
 
 .videoSection {
-  padding: 15vh 0;
+  padding: 10vh 0;
   display: grid;
-  overflow: hidden;
   grid-template-columns: repeat(3, 1fr);
   width: 75%;
   margin: auto;
