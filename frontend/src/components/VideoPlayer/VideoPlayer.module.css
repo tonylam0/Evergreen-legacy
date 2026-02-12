@@ -4,11 +4,35 @@
   height: 100vh;
   overflow: hidden;
   font-family: "Inria Sans";
+
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 40px;
+  padding: 50px 100px;
+  margin: 0 auto;
+}
+
+.mainContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.videoTitle {
+  margin: 0;
+}
+
+.metadata {
+  display: flex;
+  flex-direction: row;
+}
+
+.videoContainer {
+  width: 50vw;
+  height: 50vh;
 }
 
 .embeddedVideo {
-  height: 50vh;
-  width: 50vw;
+  border: 1px solid black;
 }
 
 .pageNotFound {
