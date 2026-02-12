@@ -7,17 +7,18 @@
 }
 
 .videoSection {
-  padding: 15vh;
+  padding: 15vh 0;
   display: grid;
   overflow: hidden;
   grid-template-columns: repeat(3, 1fr);
-  width: 80%;
+  width: 75%;
   margin: auto;
   row-gap: 50px;
+  gap: 40px;
 }
 
 .video {
-  width: 25vw;
+  width: 100%;
   justify-self: center;
 }
 

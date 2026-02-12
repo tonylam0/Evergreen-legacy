@@ -6,6 +6,7 @@ import Support from './pages/Support/Support.jsx'
 import Contact from './pages/Contact/Contact.jsx'
 import SignUp from './pages/SignUp/SignUp.jsx'
 import Login from './pages/Login/Login.jsx'
+import VideoPlayer from './components/VideoPlayer/VideoPlayer.jsx'
 import PrivateRoute from './components/PrivateRoute.jsx'
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
     { path: '/contact', element: <Contact /> },
     { path: '/signup', element: <SignUp /> },
     { path: '/login', element: <Login /> },
+    { path: '/video/:id', element: <VideoPlayer /> },
 
     // Protected routes
     {

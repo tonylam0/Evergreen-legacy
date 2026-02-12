@@ -1,7 +1,7 @@
 from django.http import response
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework_simplejwt.views import TokenRefreshView
 from rest_framework.decorators import api_view
 from rest_framework import status, generics, permissions
 from rest_framework.exceptions import PermissionDenied
@@ -42,6 +42,15 @@ def video_list(request):
     videos = Video.objects.all()
     serializer = VideoSerializer(videos, many=True)  # Converts videos to JSON
     return Response(serializer.data)
+
+class VideoView(APIView):
+    def get(self, request, video_id):
+        try:
+            video = Video.objects.get(youtube_id=video_id)
+            serializer = VideoSerializer(video)
+            return Response(serializer.data)
+        except Video.DoesNotExist:
+            return Response({"error": "Video not found"}, status=404)
 
 # Handles video submission requests
 class SubmitVideoView(APIView):
@@ -163,7 +172,7 @@ class ListReviewView(generics.ListAPIView):
         return Review.objects.filter(video__id=video_id).order_by('-review_upvotes')  # Most liked reviews first
     
 # Reads a single review
-# Don't need a get_object method because generics.RetrieveAPIView does it autoamtically
+# Don't need a get_object method because generics.RetrieveAPIView does it automatically
 class ReadReviewView(generics.RetrieveAPIView):
     permission_classes = [permissions.AllowAny]
     serializer_class = ReviewSerializer
