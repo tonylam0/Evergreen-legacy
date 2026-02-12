@@ -32,9 +32,12 @@ const VideoPlayer = () => {
 
   if (!video) {
     return <div className={styles.pageNotFound}>
-      <h1 className={styles.error}>404</h1>
-      <h2 className={styles.errorDesc}>Page not found</h2>
-      <p className={styles.errorMessage}>Sorry, the page you are looking for does not exist or an error has occured. Please go back, or head to our homepage at evergreenvideos.com.</p>
+      <Header />
+      <div className={styles.errorContent}>
+        <h1 className={styles.error}>404</h1>
+        <h2 className={styles.errorDesc}>Page not found</h2>
+        <p className={styles.errorMessage}>Sorry, the page you are looking for does not exist or an error has occured. Please go back, or head to our homepage at evergreenvideos.com.</p>
+      </div>
     </div>
   }
 
