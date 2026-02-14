@@ -1,40 +1,16 @@
+from rest_framework import status, generics, permissions, viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenRefreshView
 from rest_framework.decorators import api_view
-from rest_framework import status, generics, permissions
 from rest_framework.exceptions import PermissionDenied
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 from .models import EvergreenCollection, Video, Review
 from .serializers import VideoSerializer, ReviewSerializer
+from .utils import extract_video_id, parse_duration
 import requests
-import re
 
-
-# Extract video ID from YouTube URL
-def extract_video_id(url):
-    youtube_regex = (
-        r'(?:v=|\/)([0-9A-Za-z_-]{11}).*'  # Valid YouTube video ID format
-    )
-
-    match = re.search(youtube_regex, url)
-    if match:
-        return match.group(1)  # Returns only the video ID from the URL
-    return None
-
-# Parse YouTube duration into seconds
-def parse_duration(duration):
-    match = re.match(r'PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?', duration)
-
-    if not match:
-        return None
-    
-    hours = int(match.group(1) or 0)
-    minutes = int(match.group(2) or 0)
-    seconds = int(match.group(3) or 0)
-
-    return hours * 3600 + minutes * 60 + seconds
 
 @api_view(['GET'])
 def video_list(request):
@@ -109,103 +85,42 @@ class SubmitVideoView(APIView):
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-# CRUD operations for reviews
-class CreateReviewView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-
-    def post(self, request):        
-        video_id = request.data.get('video_id')
-    
-        if not video_id:
-            return Response({"error": "Video ID is required."}, status=status.HTTP_400_BAD_REQUEST)
-
-        video = get_object_or_404(Video, youtube_id=video_id)  # pk is primary key
-        
-        if Review.objects.filter(author=request.user, video=video).exists():
-            return Response({"error": "You have already a review for the video"}, status=status.HTTP_400_BAD_REQUEST)
-        
-        rating = request.data.get('rating')
-        if not rating:
-            return Response({"error": "Review must have a rating"}, status=status.HTTP_400_BAD_REQUEST)
-        
-        # Checks if rating is a number
-        try:
-            rating = int(rating) # Ensure it's a number
-            if not (1 <= rating <= 6):
-                return Response({"error": "Rating must be between 1 and 6"}, status=status.HTTP_400_BAD_REQUEST)
-        except ValueError:
-             return Response({"error": "Rating must be a number"}, status=status.HTTP_400_BAD_REQUEST)
-        
-        # Review text does not require check because review does not require text (only rating is required)
-        # Default to "" if user does not send review text
-        review_text = request.data.get('review_text', "")
-
-        try:
-            review = Review.objects.create(
-                author = request.user,
-                video = video,
-                review_text = review_text,
-                rating = rating
-            )
-
-            serializer = ReviewSerializer(review)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-        except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-# Read all reviews for a specific video
-class ListReviewView(generics.ListAPIView):
-    permission_classes = [permissions.AllowAny]
-    serializer_class = ReviewSerializer
-    
-    def get_queryset(self):
-        video_id = self.kwargs.get('video_id')
-
-        # Double underscore traversal allows you to access the id of the related video object
-        return Review.objects.filter(video__id=video_id).order_by('-review_upvotes')  # Most liked reviews first
-    
-# Reads a single review
-# Don't need a get_object method because generics.RetrieveAPIView does it automatically
-class ReadReviewView(generics.RetrieveAPIView):
-    permission_classes = [permissions.AllowAny]
-    serializer_class = ReviewSerializer
-        
-class EditReviewView(generics.UpdateAPIView):
-    permission_classes = [permissions.IsAuthenticated]
-    serializer_class = ReviewSerializer
-
-    def get_object(self):
-        pk = self.kwargs.get('pk')
-        review = get_object_or_404(Review, pk=pk)
-        if review.author != self.request.user:
-            raise PermissionDenied("You do not have permission to edit this review.")
-        
-        return review
-
-class DeleteReviewView(generics.DestroyAPIView):
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_object(self):
-        pk = self.kwargs.get('pk')
-        review = get_object_or_404(Review, pk=pk)
-        if review.author != self.request.user:
-            raise PermissionDenied("You do not have permission to delete this review.")
-        
-        return review
 
 class VideoSaveView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self):
         pk = self.kwargs.get('pk') 
-        video = get_object_or_404(Video, pk)
+        video = get_object_or_404(Video, pk=pk)
 
         try:
             EvergreenCollection.objects.create(user=self.request.user, video=video)
             return Response({"message": "Video is saved!"}, status=status.HTTP_201_CREATED)
         except: 
             return Response({"error": "Error occured while trying to save video"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ReviewViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    serializer_class = ReviewSerializer
+
+    def get_queryset(self):
+        queryset = Review.objects.all()
+    
+        video_id = self.request.query_params.get('video_id')
+        author_id = self.request.query_params.get('author_id')
+
+        if video_id:
+            queryset = queryset.filter(video_id=video_id)
+        
+        if author_id:
+            queryset = queryset.filter(author_id=author_id)
+
+        return queryset.order_by('-review_upvotes')
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
+
 
 class CustomTokenObtainView(TokenRefreshView):
     def post(self, request, *args, **kwargs):

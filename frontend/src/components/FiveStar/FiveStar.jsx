@@ -20,7 +20,7 @@ const FiveStar = ({ videoID }) => {
     try {
       if (!created) {
         const payload = { video_id: videoID, rating: value };
-        const response = await api.post("api/create-review/", payload)
+        const response = await api.post("api/reviews/", payload)
         console.log("success", response)
         setCreated(true)
       } else {

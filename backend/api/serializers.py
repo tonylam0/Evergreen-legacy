@@ -17,11 +17,17 @@ class VideoSerializer(serializers.ModelSerializer):
             return f"{float(rating):.1f}"  # ":.1f" forces 1 decimal place even for whole numbers
         return None
 
-# For reviews
 class ReviewSerializer(serializers.ModelSerializer):
+    video_id = serializers.SlugRelatedField(
+        queryset=Video.objects.all(),
+        slug_field='youtube_id',
+        source='video'  # Finds the corresponding video opject with passed video_id
+    )
+
     class Meta:
         model = Review
-        fields = '__all__'
+        fields = ['id', 'rating', 'review_text', 'video_id', 'author', 'created_at']
+        read_only_fields = ['author']
 
 class CustomRegisterSerializer(RegisterSerializer):
     def validate_email(self, value):
