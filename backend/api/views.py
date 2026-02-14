@@ -100,21 +100,18 @@ class VideoSaveView(APIView):
             return Response({"error": "Error occured while trying to save video"}, status=status.HTTP_400_BAD_REQUEST)
 
 
+# Handles review CRUD operations in one class
 class ReviewViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     serializer_class = ReviewSerializer
 
     def get_queryset(self):
         queryset = Review.objects.all()
-    
-        video_id = self.request.query_params.get('video_id')
-        author_id = self.request.query_params.get('author_id')
+        queryset = queryset.filter(author=self.request.user)
 
+        video_id = self.request.query_params.get('video_id')
         if video_id:
-            queryset = queryset.filter(video_id=video_id)
-        
-        if author_id:
-            queryset = queryset.filter(author_id=author_id)
+           queryset = queryset.filter(video__youtube_id=video_id) 
 
         return queryset.order_by('-review_upvotes')
 

@@ -12,6 +12,25 @@ const FiveStar = ({ videoID }) => {
   const [rating, setRating] = useState(null)
   const [created, setCreated] = useState(false)
 
+  useEffect(() => {
+    const checkStatus = async () => {
+      if (user) {
+        try {
+          const response = await api.get(`api/reviews/?video_id=${videoID}`)
+
+          if (response.data.length > 0) {
+            setCreated(true)
+            setRating(response.data[0].rating);  // Get the user's star rating
+          }
+        } catch (error) {
+          console.log("error", error.response.data)
+        }
+      }
+    }
+
+    checkStatus()
+  }, [videoID, user])
+
   const handleReview = async (value) => {
     if (!user) {
       navigate("/login")
@@ -21,12 +40,11 @@ const FiveStar = ({ videoID }) => {
       if (!created) {
         const payload = { video_id: videoID, rating: value };
         const response = await api.post("api/reviews/", payload)
-        console.log("success", response)
-        setCreated(true)
+        console.log("success", response.data)
       } else {
         const payload = { rating: value };
-        const response = await api.patch(`api/edit-review/${reviewId}/`, payload)
-        console.log("success", response)
+        const response = await api.patch(`api/reviews/${reviewId}/`, payload)
+        console.log("success", response.data)
       }
 
       setRating(value)
