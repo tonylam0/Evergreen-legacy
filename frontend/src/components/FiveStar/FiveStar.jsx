@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import api from '../../api/api.js'
 import styles from './FiveStar.module.css'
 import Star from '../../assets/star.svg?react'
-import { useAuth } from '../AuthProvider.jsx';
+import { useAuth } from '../AuthProvider.jsx'
 
 const FiveStar = ({ videoID }) => {
   const navigate = useNavigate()
@@ -11,6 +11,7 @@ const FiveStar = ({ videoID }) => {
   const { user } = useAuth()
   const [rating, setRating] = useState(null)
   const [created, setCreated] = useState(false)
+  const [reviewID, setReviewID] = useState("")
 
   useEffect(() => {
     const checkStatus = async () => {
@@ -20,14 +21,14 @@ const FiveStar = ({ videoID }) => {
 
           if (response.data.length > 0) {
             setCreated(true)
-            setRating(response.data[0].rating);  // Get the user's star rating
+            setRating(response.data[0].rating)  // Get the user's star rating
+            setReviewID(response.data[0].id)  // Get the reviewID
           }
         } catch (error) {
           console.log("error", error.response.data)
         }
       }
     }
-
     checkStatus()
   }, [videoID, user])
 
@@ -38,12 +39,12 @@ const FiveStar = ({ videoID }) => {
 
     try {
       if (!created) {
-        const payload = { video_id: videoID, rating: value };
+        const payload = { video_id: videoID, rating: value }
         const response = await api.post("api/reviews/", payload)
         console.log("success", response.data)
       } else {
-        const payload = { rating: value };
-        const response = await api.patch(`api/reviews/${reviewId}/`, payload)
+        const payload = { rating: value }
+        const response = await api.patch(`api/reviews/${reviewID}/`, payload)
         console.log("success", response.data)
       }
 

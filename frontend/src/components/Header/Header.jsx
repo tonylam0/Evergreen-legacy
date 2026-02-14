@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { IoIosMenu } from "react-icons/io";
+import { useState } from 'react'
+import { IoIosMenu } from "react-icons/io"
 import { Link, useNavigate } from 'react-router-dom'
-import { useAuth } from '../AuthProvider.jsx';
+import { useAuth } from '../AuthProvider.jsx'
 import api from "../../api/api.js"
 import styles from './Header.module.css'
 import ExitButton from '../../assets/x.svg?react'
@@ -42,13 +42,13 @@ const Header = () => {
   }
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
     if (user) {
       try {
         const response = await api.post("api/submit-video/", videoLink)
         console.log("success", response)
-        window.location.reload();
+        window.location.reload()
       } catch (error) {
         console.log("error", error.response.data)
       }

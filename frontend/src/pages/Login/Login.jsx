@@ -13,7 +13,7 @@ import { Link, useNavigate } from 'react-router-dom'
 
 function Login() {
   const navigate = useNavigate()
-  const { login } = useAuth();
+  const { login } = useAuth()
 
   const [showPassword, setShowPassword] = useState("password")
   const [passwordIcon, setPasswordIcon] = useState(Unshow)
@@ -43,13 +43,13 @@ function Login() {
   }
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
     try {
-      await login(formData.email, formData.password);
+      await login(formData.email, formData.password)
       navigate("/")
     } catch (error) {
-      console.log("Error Data:", error.response?.data || "Network Error");
+      console.log("Error Data:", error.response?.data || "Network Error")
     }
   }
 
@@ -101,7 +101,7 @@ function Login() {
         </div>
 
         <p className={styles.loginMessage}>
-          Don't have an account?&nbsp;
+          Don't have an account?&nbsp
           <Link to={"/signup"} className={styles.link}>
             Sign up
           </Link>

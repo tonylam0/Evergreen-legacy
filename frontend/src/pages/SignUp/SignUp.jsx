@@ -15,7 +15,7 @@ import { Link, useNavigate } from 'react-router-dom'
 
 function SignUp() {
   const navigate = useNavigate()
-  const { login } = useAuth();
+  const { login } = useAuth()
 
   const [showPassword, setShowPassword] = useState("password")
   const [passwordIcon, setPasswordIcon] = useState(Unshow)
@@ -56,11 +56,11 @@ function SignUp() {
   }
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
     try {
       const response = await api.post("api-auth/registration/", formData)
-      await login(formData.email, formData.password1);
+      await login(formData.email, formData.password1)
       navigate("/")
     } catch (error) {
       console.log("error", error.response.data)
