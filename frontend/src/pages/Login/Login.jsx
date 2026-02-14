@@ -13,7 +13,7 @@ import { Link, useNavigate } from 'react-router-dom'
 
 function Login() {
   const navigate = useNavigate()
-  const { user, login } = useAuth();
+  const { login } = useAuth();
 
   const [showPassword, setShowPassword] = useState("password")
   const [passwordIcon, setPasswordIcon] = useState(Unshow)

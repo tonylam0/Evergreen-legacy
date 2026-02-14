@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.star {
+  height: 25px;
+  cursor: pointer;
+}
+
+.star:hover {
+  filter: brightness(.1);
+}

@@ -11,10 +11,10 @@ import PlusIcon from '../../assets/plus.svg?react'
 import Popup from '../../components/Popup/Popup.jsx'
 
 const Header = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const { user, logout } = useAuth();
+  const { user, logout } = useAuth()
   const [videoLink, setVideoLink] = useState({
     "url": ""
   })
@@ -48,11 +48,9 @@ const Header = () => {
       try {
         const response = await api.post("api/submit-video/", videoLink)
         console.log("success", response)
-        window.location.reload(); 
+        window.location.reload();
       } catch (error) {
         console.log("error", error.response.data)
-        console.log(videoLink)
-        console.log(user)
       }
     } else {
       navigate("/login")

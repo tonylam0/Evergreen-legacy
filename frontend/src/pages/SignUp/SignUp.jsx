@@ -15,7 +15,7 @@ import { Link, useNavigate } from 'react-router-dom'
 
 function SignUp() {
   const navigate = useNavigate()
-  const { user, login } = useAuth();
+  const { login } = useAuth();
 
   const [showPassword, setShowPassword] = useState("password")
   const [passwordIcon, setPasswordIcon] = useState(Unshow)

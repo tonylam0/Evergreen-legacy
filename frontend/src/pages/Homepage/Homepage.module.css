@@ -16,9 +16,12 @@
   gap: 40px;
 }
 
-.video {
+.videoLink {
   width: 100%;
-  justify-self: center;
+}
+
+.videoLink:hover {
+  opacity: .9;
 }
 
 .thumbnail {

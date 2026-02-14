@@ -80,7 +80,7 @@ const VideoPlayer = () => {
           <div className={styles.actionRow}>
             <div className={styles.rating}>
               <h2 className={styles.ratingText}>Rate this video essay</h2>
-              <FiveStar />
+              <FiveStar videoID={id} />
             </div>
             <button>Write a review</button>
           </div>

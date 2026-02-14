@@ -24,7 +24,7 @@ function Homepage() {
         <Header />
         <div className={styles.videoSection}>
           {videos && videos.map((key) => (
-            <Link to={`/video/${key.youtube_id}`} key={key.id}>
+            <Link to={`/video/${key.youtube_id}`} className={styles.videoLink} key={key.id}>
               <div className={styles.video}>
                 <img src={key.thumbnail_url} alt="thumbnail" className={styles.thumbnail}></img>
                 <h2 className={styles.videoTitle}>{key.title}</h2>

@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db.models import Avg
+import uuid
 
 
 class CustomUser(AbstractUser): # Allows users to bypass submission checking
@@ -37,6 +38,7 @@ class Video(models.Model):
         return self.title
 
 class Review(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="reviews")
     video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name="reviews")
     review_text = models.TextField(blank=True, default="")

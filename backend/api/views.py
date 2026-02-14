@@ -1,4 +1,3 @@
-from django.http import response
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenRefreshView
@@ -115,18 +114,12 @@ class CreateReviewView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):        
-        video_id_str = request.data.get('video_id')
+        video_id = request.data.get('video_id')
     
-        if not video_id_str:
+        if not video_id:
             return Response({"error": "Video ID is required."}, status=status.HTTP_400_BAD_REQUEST)
-        
-        # Checks for valid integer video ID
-        try:
-            video_id = int(video_id_str)
-        except ValueError:
-            return Response({"error": "Video ID must be an integer."}, status=status.HTTP_400_BAD_REQUEST)
 
-        video = get_object_or_404(Video, pk=video_id)  # pk is primary key
+        video = get_object_or_404(Video, youtube_id=video_id)  # pk is primary key
         
         if Review.objects.filter(author=request.user, video=video).exists():
             return Response({"error": "You have already a review for the video"}, status=status.HTTP_400_BAD_REQUEST)
@@ -144,7 +137,8 @@ class CreateReviewView(APIView):
              return Response({"error": "Rating must be a number"}, status=status.HTTP_400_BAD_REQUEST)
         
         # Review text does not require check because review does not require text (only rating is required)
-        review_text = request.data.get('review_text', "")   # Default to "" if user does not send review text
+        # Default to "" if user does not send review text
+        review_text = request.data.get('review_text', "")
 
         try:
             review = Review.objects.create(
