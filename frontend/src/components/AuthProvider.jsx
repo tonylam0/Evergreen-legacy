@@ -37,6 +37,6 @@ export const AuthProvider = ({ children }) => {
       {!loading && children} {/* Don't render the app until we've checked for the user */}
     </AuthContext.Provider>
   );
-};
+}
 
 export const useAuth = () => useContext(AuthContext)

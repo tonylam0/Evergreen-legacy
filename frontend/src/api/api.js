@@ -25,16 +25,24 @@ api.interceptors.response.use(
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true
 
-      try {
-        const refreshToken = localStorage.getItem('refresh_token')
+      const refreshToken = localStorage.getItem('refresh_token')
+      if (!refreshToken) {
+        localStorage.removeItem('access_token')
+        window.location.href = '/login'
+        return Promise.reject(error)
+      }
 
+      try {
         const response = await axios.post('http://localhost:8000/api/token/refresh/', {
           refresh: refreshToken,
         })
 
-        // If successful, save the new token
+        // If successful, save the new access token (and new refresh token when rotation is enabled)
         const newAccessToken = response.data.access
         localStorage.setItem('access_token', newAccessToken)
+        if (response.data.refresh) {
+          localStorage.setItem('refresh_token', response.data.refresh)
+        }
 
         // Update the header of the failed request with the new token
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`

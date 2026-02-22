@@ -1,8 +1,8 @@
 .container {
   background-color: #f4f4f4;
   width: 100vw;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow-x: hidden;
   font-family: "Inria Sans";
 }
 
@@ -37,16 +37,73 @@
   opacity: 85%;
 }
 
-@media (max-width: 480px) {}
-
-@media (max-width: 768px) {}
-
-@media (max-width: 1024px) {}
-
 @media (max-width: 1440px) {
   .coffee {
     margin-bottom: 25px;
     width: 210px;
   }
+}
 
+@media (max-width: 1024px) {
+  .text {
+    padding: 20px;
+  }
+
+  .title {
+    font-size: 38px;
+  }
+
+  .message {
+    width: 90%;
+    max-width: 500px;
+    font-size: 18px;
+  }
+
+  .coffee {
+    width: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .text {
+    padding: 15px;
+  }
+
+  .title {
+    font-size: 32px;
+  }
+
+  .message {
+    width: 95%;
+    max-width: 450px;
+    font-size: 16px;
+    padding: 0 10px;
+  }
+
+  .coffee {
+    width: 180px;
+    margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .text {
+    padding: 10px;
+  }
+
+  .title {
+    font-size: 26px;
+    padding: 0 15px;
+  }
+
+  .message {
+    width: 100%;
+    font-size: 14px;
+    padding: 0 15px;
+  }
+
+  .coffee {
+    width: 150px;
+    margin-bottom: 25px;
+  }
 }

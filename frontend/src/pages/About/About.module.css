@@ -1,8 +1,8 @@
 .container {
   background-color: #f4f4f4;
   width: 100vw;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow-x: hidden;
   font-family: "Inria Sans";
 }
 
@@ -35,12 +35,6 @@
   text-align: justify;
 }
 
-@media (max-width: 480px) {}
-
-@media (max-width: 768px) {}
-
-@media (max-width: 1024px) {}
-
 @media (max-width: 1440px) {
   .title {
     font-size: 25px;
@@ -50,5 +44,56 @@
     font-size: 17px;
     width: 800px;
     text-align: justify;
+  }
+}
+
+@media (max-width: 1024px) {
+  .text {
+    padding: 20px;
+  }
+
+  .title {
+    font-size: 22px;
+  }
+
+  .message {
+    width: 90%;
+    max-width: 700px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .text {
+    padding: 15px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .message {
+    width: 95%;
+    max-width: 600px;
+    font-size: 15px;
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .text {
+    padding: 10px;
+  }
+
+  .title {
+    font-size: 18px;
+    padding: 0 15px;
+  }
+
+  .message {
+    width: 100%;
+    font-size: 14px;
+    padding: 0 15px;
+    text-align: left;
   }
 }

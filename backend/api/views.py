@@ -107,11 +107,23 @@ class ReviewViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = Review.objects.all()
-        queryset = queryset.filter(author=self.request.user)
-
+        
+        # If video_id is provided and all_reviews=true, return all reviews for that video
         video_id = self.request.query_params.get('video_id')
-        if video_id:
-           queryset = queryset.filter(video__youtube_id=video_id) 
+        all_reviews = self.request.query_params.get('all_reviews', 'false').lower() == 'true'
+        
+        if video_id and all_reviews:
+            # Return all reviews for the video, ordered by upvotes
+            queryset = queryset.filter(video__youtube_id=video_id)
+        else:
+            # Default behavior: return only user's reviews
+            if self.request.user.is_authenticated:
+                queryset = queryset.filter(author=self.request.user)
+            else:
+                queryset = Review.objects.none()
+            
+            if video_id:
+                queryset = queryset.filter(video__youtube_id=video_id) 
 
         return queryset.order_by('-review_upvotes')
 

@@ -1,14 +1,16 @@
 .container {
   background-color: #f4f4f4;
   width: 100vw;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow-x: hidden;
   margin: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   font-family: "Inria Sans";
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .logo {
@@ -195,12 +197,6 @@
   font-weight: 400;
 }
 
-@media (max-width: 480px) {}
-
-@media (max-width: 768px) {}
-
-@media (max-width: 1024px) {}
-
 @media (max-width: 1440px) {
   .logo {
     margin-bottom: 10px;
@@ -224,5 +220,95 @@
 
   .oauthButton {
     height: 45px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .container {
+    padding: 30px 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 20px 15px;
+  }
+
+  .logo {
+    width: 120px;
+    height: auto;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .message {
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .form {
+    width: 100%;
+    max-width: 350px;
+  }
+
+  .oauth {
+    width: 100%;
+    max-width: 350px;
+  }
+
+  .buttonBase {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 15px 10px;
+  }
+
+  .logo {
+    width: 100px;
+    margin-bottom: 15px;
+  }
+
+  .title {
+    font-size: 1.3rem;
+    padding: 0 10px;
+  }
+
+  .message {
+    font-size: 0.85rem;
+    padding: 0 10px;
+  }
+
+  .form {
+    max-width: 100%;
+  }
+
+  .oauth {
+    max-width: 100%;
+  }
+
+  .buttonBase {
+    font-size: 14px;
+    height: 42px;
+  }
+
+  .input {
+    height: 42px;
+    font-size: 14px;
+  }
+
+  .separator {
+    margin: 15px 0px;
+  }
+
+  .loginMessage {
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 0 10px;
   }
 }

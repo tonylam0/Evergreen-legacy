@@ -23,11 +23,16 @@ class ReviewSerializer(serializers.ModelSerializer):
         slug_field='youtube_id',
         source='video'  # Finds the corresponding video opject with passed video_id
     )
+    author_username = serializers.CharField(source='author.username', read_only=True)
+    upvote_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Review
-        fields = ['id', 'rating', 'review_text', 'video_id', 'author', 'created_at']
-        read_only_fields = ['author']
+        fields = ['id', 'rating', 'review_text', 'video_id', 'author', 'author_username', 'created_at', 'upvote_count']
+        read_only_fields = ['author', 'author_username', 'upvote_count']
+
+    def get_upvote_count(self, obj):
+        return obj.review_upvotes.count()
 
 class CustomRegisterSerializer(RegisterSerializer):
     def validate_email(self, value):

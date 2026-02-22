@@ -1,0 +1,169 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  border-top: 1px solid #A0A0A0;
+  padding-top: 20px;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: #1a1a1a;
+}
+
+.reviewsList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.reviewCard {
+  border: 1px solid #A0A0A0;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.reviewHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.authorName {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #1a1a1a;
+}
+
+.date {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #666;
+  opacity: 0.8;
+}
+
+.reviewText {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #333;
+}
+
+.readMore {
+  color: #4B544B;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.readMore:hover {
+  color: #404740;
+}
+
+.reviewFooter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.rating {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.ratingValue {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #1a1a1a;
+}
+
+.upvotes {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.upvoteIcon {
+  font-size: 1.2rem;
+  color: #666;
+  font-weight: bold;
+}
+
+.upvoteCount {
+  color: #666;
+}
+
+.firstReviewButton {
+  font-family: "Inria Sans";
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 12px 24px;
+  background-color: transparent;
+  color: #1a1a1a;
+  border: 1px solid #A0A0A0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.firstReviewButton:hover {
+  background-color: rgba(160, 160, 160, 0.1);
+  border-color: #808080;
+}
+
+@media (min-width: 1025px) {
+  .container {
+    border-top: none;
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 1024px) {
+  .container {
+    margin-top: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 1.3rem;
+  }
+
+  .reviewCard {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.1rem;
+  }
+
+  .reviewCard {
+    padding: 12px;
+  }
+
+  .authorName {
+    font-size: 0.9rem;
+  }
+
+  .reviewText {
+    font-size: 0.85rem;
+  }
+}

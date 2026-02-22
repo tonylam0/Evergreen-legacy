@@ -101,7 +101,7 @@ function Login() {
         </div>
 
         <p className={styles.loginMessage}>
-          Don't have an account?&nbsp
+          Don't have an account?&nbsp;
           <Link to={"/signup"} className={styles.link}>
             Sign up
           </Link>

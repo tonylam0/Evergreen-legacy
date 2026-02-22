@@ -1,13 +1,41 @@
 .container {
   display: flex;
   flex-direction: row;
+  gap: 3px;
 }
 
+/* Empty: grey outline, transparent fill (like reference empty stars) */
 .star {
   height: 25px;
+  width: 25px;
   cursor: pointer;
+  fill: none;
+  stroke: #A0A8AC;
+  stroke-width: 1.5px;
+  transition: fill 0.2s ease, stroke 0.2s ease, opacity 0.2s ease, filter 0.2s ease;
 }
 
-.star:hover {
-  filter: brightness(.1);
+.star path {
+  fill: inherit;
+  stroke: inherit;
+}
+
+/* Filled: opaque golden/khaki, flat (like reference filled stars) */
+.star.filled {
+  fill: #B8A96F;
+  stroke: #B8A96F;
+}
+
+/* Hover: star and all before it light up (golden) */
+.star.hoverLit {
+  fill: #D4C68A;
+  stroke: #D4C68A;
+  opacity: 0.85;
+}
+
+/* Filled stars that are hovered should show a brighter/lighter version */
+.star.filled.hoverLit {
+  fill: #D4C68A;
+  stroke: #D4C68A;
+  opacity: 1;
 }
