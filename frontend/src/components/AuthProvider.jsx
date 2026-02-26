@@ -32,8 +32,25 @@ export const AuthProvider = ({ children }) => {
     setUser(null)
   };
 
+  const googleLogin = async (code) => {
+    try {
+      const response = await api.post('api/auth/google/', { code });
+      const { access, refresh, user: userData } = response.data;
+
+      localStorage.setItem('access_token', access);
+      localStorage.setItem('refresh_token', refresh);
+      
+      // Update state immediately
+      setUser(userData || { token: access });
+      return response.data;
+    } catch (error) {
+      console.error("Google Auth failed", error);
+      throw error;
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, setUser, googleLogin }}>
       {!loading && children} {/* Don't render the app until we've checked for the user */}
     </AuthContext.Provider>
   );

@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { useAuth } from '../../components/AuthProvider.jsx'
+import { useGoogleLogin } from '@react-oauth/google';
+import { Link, useNavigate } from 'react-router-dom'
 import api from '../../api/api.js'
 import styles from './SignUp.module.css'
 import Logo from '../../assets/logo.svg?react'
@@ -9,13 +11,11 @@ import Username from '../../assets/username.svg?react'
 import Lock from '../../assets/lock.svg?react'
 import Show from '../../assets/show.svg?react'
 import Unshow from '../../assets/unshow.svg?react'
-import AppleLogo from '../../assets/apple.svg?react'
 import GoogleLogo from '../../assets/google.svg?react'
-import { Link, useNavigate } from 'react-router-dom'
 
 function SignUp() {
   const navigate = useNavigate()
-  const { login } = useAuth()
+  const { login, googleLogin } = useAuth()
 
   const [showPassword, setShowPassword] = useState("password")
   const [passwordIcon, setPasswordIcon] = useState(Unshow)
@@ -67,6 +67,19 @@ function SignUp() {
     }
   }
 
+  const handleGoogleSignup = useGoogleLogin({
+    flow: 'auth-code',
+    onSuccess: async (tokenResponse) => {
+      try {
+        await googleLogin(tokenResponse.code);
+        console.log("Account created/accessed successfully!");
+        navigate("/");
+      } catch (error) {
+        console.error("Signup failed:", error.response?.data || error);
+      }
+    },
+  })
+
   return (
     <>
       <div className={styles.container} >
@@ -104,14 +117,11 @@ function SignUp() {
 
           <div className={styles.buttons}>
             <div className={styles.oauthButton}>
-              <button className={`${styles.buttonBase} ${styles.buttonTransparent}`}>
-                <AppleLogo className={styles.oauthLogo}></AppleLogo>
-                <p className={styles.oauthText}>Continue with Apple</p>
-              </button>
-            </div>
-
-            <div className={styles.oauthButton}>
-              <button className={`${styles.buttonBase} ${styles.buttonTransparent}`}>
+              <button
+                type="button"
+                className={`${styles.buttonBase} ${styles.buttonTransparent}`}
+                onClick={() => handleGoogleSignup()}
+              >
                 <GoogleLogo className={styles.oauthLogo}></GoogleLogo>
                 <p className={styles.oauthText}>Continue with Google</p>
               </button>

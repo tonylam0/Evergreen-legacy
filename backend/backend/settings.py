@@ -72,6 +72,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.apple',
 ]
 
 MIDDLEWARE = [
@@ -187,3 +189,12 @@ ACCOUNT_SIGNUP_FIELDS = ['username*', 'email*']  # Ensures that email is require
 ACCOUNT_EMAIL_VERIFICATION = 'none' # Or 'mandatory'
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_CONFIRM_PASSWORD_SETTING = False
+SOCIALACCOUNT_LOGIN_ON_GET = True
+LOGIN_REDIRECT_URL = 'http://localhost:5173/'
+
+# Try to generate a username from the email automatically
+ACCOUNT_ADAPTER = 'allauth.account.adapter.DefaultAccountAdapter'
+SOCIALACCOUNT_ADAPTER = 'allauth.socialaccount.adapter.DefaultSocialAccountAdapter'
+
+# If the username is already taken, it will append some numbers
+SOCIALACCOUNT_AUTO_SIGNUP = True

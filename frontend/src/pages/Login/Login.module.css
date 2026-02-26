@@ -220,7 +220,7 @@
   }
 
   .logo {
-    width: 120px;
+    width: 60px;
     height: auto;
   }
 
@@ -255,12 +255,10 @@
   }
 
   .logo {
-    width: 100px;
     margin-bottom: 15px;
   }
 
   .title {
-    font-size: 1.3rem;
     padding: 0 10px;
   }
 
