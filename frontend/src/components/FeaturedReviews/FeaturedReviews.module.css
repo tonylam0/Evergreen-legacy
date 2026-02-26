@@ -21,10 +21,9 @@
 }
 
 .reviewCard {
-  border: 1px solid #A0A0A0;
+  border: 1px solid black;
   border-radius: 8px;
   padding: 20px;
-  background-color: #ffffff;
   display: flex;
   flex-direction: column;
   gap: 12px;

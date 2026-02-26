@@ -7,7 +7,7 @@ const FilledStar = ({ rating }) => {
   const displayRating = Math.round(rating * 10) / 10 // Round to 1 decimal
   const fullStars = Math.floor(displayRating)
   const hasPartialStar = displayRating % 1 > 0
-  const emptyStars = 6 - fullStars - (hasPartialStar ? 1 : 0)
+  const emptyStars = 5 - fullStars - (hasPartialStar ? 1 : 0)
 
   return (
     <div className={styles.container}>

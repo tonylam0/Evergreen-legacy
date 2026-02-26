@@ -1,6 +1,7 @@
 import { Suspense } from 'react'
 import { useRoutes } from 'react-router-dom'
 import Homepage from './pages/Homepage/Homepage.jsx'
+import SearchPage from './pages/SearchPage/SearchPage.jsx'
 import About from './pages/About/About.jsx'
 import Support from './pages/Support/Support.jsx'
 import Contact from './pages/Contact/Contact.jsx'
@@ -12,6 +13,7 @@ import PrivateRoute from './components/PrivateRoute.jsx'
 function App() {
   const element = useRoutes([
     { path: '/', element: <Homepage /> },
+    { path: '/search', element: <SearchPage /> },
     { path: '/about', element: <About /> },
     { path: '/support', element: <Support /> },
     { path: '/contact', element: <Contact /> },

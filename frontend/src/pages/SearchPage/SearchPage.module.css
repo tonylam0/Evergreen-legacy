@@ -1,0 +1,153 @@
+.container {
+  background-color: #f4f4f4;
+  width: 100%;
+  min-height: 100dvh;
+  margin: 0;
+  font-family: "Inria Sans";
+}
+
+.content {
+  width: 75%;
+  margin: 0 auto;
+  padding: 2rem 0 4rem;
+}
+
+.pageTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 1.5rem;
+}
+
+.count {
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.videoSection {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  row-gap: 50px;
+}
+
+.videoLink {
+  width: 100%;
+}
+
+.videoLink:hover {
+  opacity: 0.9;
+}
+
+.thumbnail {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.07);
+}
+
+.videoTitle {
+  margin-top: 7px;
+  margin-bottom: 10px;
+  width: 100%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #1a1a1a;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.underTitle {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nonTitle {
+  margin: 0;
+}
+
+.rating {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  font-weight: 700;
+  font-size: 22px;
+  height: 25px;
+}
+
+.loadMoreSkeletons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  row-gap: 50px;
+  margin-top: 1rem;
+}
+
+.sentinel {
+  height: 1px;
+  width: 100%;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.emptyMessage {
+  color: #6b7280;
+  font-size: 1rem;
+  margin: 2rem 0;
+}
+
+@media (max-width: 1024px) {
+  .content {
+    width: 85%;
+  }
+
+  .videoSection,
+  .loadMoreSkeletons {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    row-gap: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .content {
+    width: 90%;
+    padding: 1.5rem 0 3rem;
+  }
+
+  .pageTitle {
+    font-size: 1.25rem;
+  }
+
+  .videoSection,
+  .loadMoreSkeletons {
+    gap: 25px;
+    row-gap: 35px;
+  }
+
+  .videoTitle {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .videoSection,
+  .loadMoreSkeletons {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    row-gap: 30px;
+  }
+
+  .videoTitle {
+    font-size: 0.95rem;
+  }
+}

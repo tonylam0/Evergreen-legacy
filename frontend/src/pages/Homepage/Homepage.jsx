@@ -1,46 +1,62 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
 import styles from './Homepage.module.css'
 import Header from '../../components/Header/Header.jsx'
 import Star from '../../assets/star.svg?react'
+import api from '../../api/api.js'
 
 function Homepage() {
-  const [videos, setVideos] = useState()
+  const [feed, setFeed] = useState(null)
 
   useEffect(() => {
-    axios.get('http://localhost:8000/api/videos/')
+    api.get('api/feed/homepage/')
       .then(response => {
-        setVideos(response.data)
+        setFeed(response.data)
       })
       .catch(error => {
-        console.log(error.data)
+        console.log(error.response?.data || error)
       })
   }, [])
+
+  const renderVideoCard = (video) => (
+    <Link to={`/video/${video.youtube_id}`} className={styles.videoLink} key={video.id}>
+      <div className={styles.video}>
+        <img src={video.thumbnail_url} alt="thumbnail" className={styles.thumbnail} />
+        <h2 className={styles.videoTitle}>{video.title}</h2>
+        <div className={styles.underTitle}>
+          <p className={styles.nonTitle}>{video.channel_name}</p>
+          {video.average_rating && (
+            <div className={styles.rating}>
+              <Star />
+              <p className={styles.nonTitle}>{video.average_rating}</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </Link>
+  )
+
+  const canon = feed?.canon || []
+  const newAndEmerging = feed?.new_and_emerging || []
 
   return (
     <>
       <div className={styles.container}>
         <Header />
+
         <div className={styles.videoSection}>
-          {videos && videos.map((key) => (
-            <Link to={`/video/${key.youtube_id}`} className={styles.videoLink} key={key.id}>
-              <div className={styles.video}>
-                <img src={key.thumbnail_url} alt="thumbnail" className={styles.thumbnail}></img>
-                <h2 className={styles.videoTitle}>{key.title}</h2>
-                <div className={styles.underTitle}>
-                  <p className={styles.nonTitle}>{key.channel_name}</p>
-                  {key.average_rating && < div className={styles.rating}>
-                    <Star />
-                    <p className={styles.nonTitle}>{key.average_rating}</p>
-                  </div>}
-                </div>
-              </div>
-            </Link>
-          ))}
+          {canon.map(renderVideoCard)}
         </div>
 
-      </div >
+        {newAndEmerging.length > 0 && (
+          <>
+            <h2 className={styles.sectionTitle}>New &amp; emerging</h2>
+            <div className={styles.videoSection}>
+              {newAndEmerging.map(renderVideoCard)}
+            </div>
+          </>
+        )}
+      </div>
     </>
   )
 }

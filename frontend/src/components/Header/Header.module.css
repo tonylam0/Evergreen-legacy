@@ -105,6 +105,87 @@ a {
   cursor: pointer;
 }
 
+.searchDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 4px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.searchDropdownSection {
+  padding: 10px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.searchDropdownEmpty {
+  padding: 14px;
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+.searchDropdownItem,
+.searchDropdownItemActive {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 14px;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+}
+
+.searchDropdownItem:hover,
+.searchDropdownItemActive {
+  background-color: #f3f4f6;
+}
+
+.searchDropdownThumb {
+  width: 56px;
+  height: 32px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.searchDropdownText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.searchDropdownTitle {
+  font-size: 14px;
+  font-weight: 500;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.searchDropdownChannel {
+  font-size: 12px;
+  color: #6b7280;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .menuButton {
   height: 35px;
   width: 35px;
@@ -251,6 +332,51 @@ a {
 
 .submission .importButton:hover {
   opacity: .95;
+}
+
+.importedList {
+  margin-top: 25px;
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.importedItem {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 10px 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.importedThumbnail {
+  width: 120px;
+  height: 68px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.importedText {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.importedTitle {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.importedChannel {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
 }
 
 @media (max-width: 1440px) {

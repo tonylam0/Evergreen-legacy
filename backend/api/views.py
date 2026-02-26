@@ -1,20 +1,65 @@
-from rest_framework import status, generics, permissions, viewsets
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework_simplejwt.views import TokenRefreshView
-from rest_framework.decorators import api_view
-from rest_framework.exceptions import PermissionDenied
+from datetime import timedelta
+
 from django.conf import settings
 from django.shortcuts import get_object_or_404
-from .models import EvergreenCollection, Video, Review
-from .serializers import VideoSerializer, ReviewSerializer
+from rest_framework import permissions, status, viewsets
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework_simplejwt.views import TokenRefreshView
+
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+from dj_rest_auth.registration.views import SocialLoginView
+
+from .models import EvergreenCollection, Review, Video, VideoEvergreenStats, VideoWatchEvent
+from .ranking import apply_user_affinity
+from .search_utils import search_videos, suggestion_videos
+from .serializers import ReviewSerializer, VideoSerializer
 from .utils import extract_video_id, parse_duration
 import requests
 
 
-@api_view(['GET'])
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+from dj_rest_auth.registration.views import SocialLoginView
+
+
+class CustomGoogleOAuth2Client(OAuth2Client):
+    def __init__(
+        self,
+        request,
+        consumer_key,
+        consumer_secret,
+        access_token_method,
+        access_token_url,
+        callback_url,
+        _scope,  
+        scope_delimiter=" ",
+        headers=None,
+        basic_auth=False,
+    ):
+        super().__init__(
+            request,
+            consumer_key,
+            consumer_secret,
+            access_token_method,
+            access_token_url,
+            callback_url,
+            scope_delimiter=scope_delimiter,
+            headers=headers,
+            basic_auth=basic_auth,
+        )
+
+
+class GoogleLogin(SocialLoginView):
+    adapter_class = GoogleOAuth2Adapter
+    callback_url = "postmessage"
+    client_class = CustomGoogleOAuth2Client
+    
+@api_view(["GET"])
 def video_list(request):
-    videos = Video.objects.all()
+    videos = Video.objects.filter(is_approved=True).select_related("evergreen_stats")
     serializer = VideoSerializer(videos, many=True)  # Converts videos to JSON
     return Response(serializer.data)
 
@@ -29,7 +74,7 @@ class VideoView(APIView):
 
 # Handles video submission requests
 class SubmitVideoView(APIView):
-    permission_classes = [permissions.IsAuthenticated]  # Only allows authenticated users to submit videos
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):
         # Get the YouTube URL from the request data
@@ -76,7 +121,8 @@ class SubmitVideoView(APIView):
                 duration_seconds = duration_in_seconds,
                 thumbnail_url = snippet['thumbnails']['high']['url'],
                 submitted_by = request.user,
-                is_approved = request.user.is_trusted_curator  # Auto-approve if user is trusted curator
+                # Auto-approve if user is trusted curator
+                is_approved = request.user.is_trusted_curator
             )
 
             serializer = VideoSerializer(video)  # Converts video object into JSON format
@@ -90,7 +136,7 @@ class VideoSaveView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self):
-        pk = self.kwargs.get('pk') 
+        pk = self.kwargs.get('pk')
         video = get_object_or_404(Video, pk=pk)
 
         try:
@@ -125,7 +171,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
             if video_id:
                 queryset = queryset.filter(video__youtube_id=video_id) 
 
-        return queryset.order_by('-review_upvotes')
+        return queryset.order_by("-review_upvotes")
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
@@ -150,3 +196,193 @@ class CustomTokenObtainView(TokenRefreshView):
         del response.data['refresh']  # Remove the refresh token from the response
 
         return response
+
+
+class GlobalRankView(APIView):
+    """
+    Return globally-ranked approved videos ordered by Evergreen score.
+    """
+
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        limit = int(request.query_params.get("limit", 20))
+        limit = max(1, min(limit, 100))
+
+        queryset = (
+            Video.objects.filter(is_approved=True, evergreen_stats__isnull=False)
+            .select_related("evergreen_stats")
+            .order_by("-evergreen_stats__global_evergreen_score")
+        )[:limit]
+
+        serializer = VideoSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class UserRankView(APIView):
+    """
+    Personalized ranking that gently adjusts global Evergreen scores
+    with simple user affinity signals.
+    """
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        limit = int(request.query_params.get("limit", 20))
+        limit = max(1, min(limit, 100))
+
+        base_qs = (
+            Video.objects.filter(is_approved=True, evergreen_stats__isnull=False)
+            .select_related("evergreen_stats")
+        )
+
+        # Preload simple affinity signals.
+        saved_video_ids = set(
+            EvergreenCollection.objects.filter(user=user).values_list("video_id", flat=True)
+        )
+        reviewed_video_ids = set(
+            Review.objects.filter(author=user).values_list("video_id", flat=True)
+        )
+
+        scored = []
+        for video in base_qs:
+            base_score = float(getattr(video.evergreen_stats, "global_evergreen_score", 0.0) or 0.0)
+
+            # Simple affinity: boost videos the user has saved or reviewed.
+            affinity = 1.0
+            if video.id in saved_video_ids:
+                affinity += 0.3
+            if video.id in reviewed_video_ids:
+                affinity += 0.2
+
+            personalized_score = apply_user_affinity(base_score, affinity)
+            scored.append((personalized_score, video))
+
+        scored.sort(key=lambda item: item[0], reverse=True)
+        top_videos = [video for _score, video in scored[:limit]]
+
+        serializer = VideoSerializer(top_videos, many=True)
+        return Response(serializer.data)
+
+
+class HomepageFeedView(APIView):
+    """
+    High-level homepage feed composed from Evergreen-ranked videos.
+
+    This view returns sections but keeps the response structure simple so
+    the frontend can iterate quickly.
+    """
+
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        user = request.user if request.user.is_authenticated else None
+
+        # Canon: top globally-ranked approved videos.
+        canon_qs = (
+            Video.objects.filter(is_approved=True, evergreen_stats__isnull=False)
+            .select_related("evergreen_stats")
+            .order_by("-evergreen_stats__global_evergreen_score")[:20]
+        )
+
+        # New & emerging: approved videos newer than 90 days, ordered by Evergreen score.
+        cutoff_delta = timedelta(days=90)
+        from django.utils import timezone
+
+        now = timezone.now()
+        new_qs = (
+            Video.objects.filter(
+                is_approved=True,
+                evergreen_stats__isnull=False,
+                publish_date__gte=now - cutoff_delta,
+            )
+            .select_related("evergreen_stats")
+            .order_by("-evergreen_stats__global_evergreen_score")[:10]
+        )
+
+        # Continue watching: partially watched videos for this user.
+        continue_qs = Video.objects.none()
+        if user is not None:
+            # Sessions where the user watched but did not mark completed.
+            partial_events = (
+                VideoWatchEvent.objects.filter(user=user, completed=False)
+                .select_related("video")
+                .order_by("-started_at")
+            )
+            video_ids = list(
+                {
+                    e.video_id
+                    for e in partial_events
+                    if e.video.is_approved and hasattr(e.video, "evergreen_stats")
+                }
+            )[:10]
+            continue_qs = (
+                Video.objects.filter(id__in=video_ids)
+                .select_related("evergreen_stats")
+            )
+
+        data = {
+            "canon": VideoSerializer(canon_qs, many=True).data,
+            "new_and_emerging": VideoSerializer(new_qs, many=True).data,
+            "continue_watching": VideoSerializer(continue_qs, many=True).data,
+        }
+
+        return Response(data)
+
+
+class SearchView(APIView):
+    """
+    GET /api/search/?q=...&sort=relevance|rating|newest&page=1&page_size=24
+    Returns { results, count, next }.
+    """
+
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        q = (request.query_params.get("q") or "").strip()
+        if not q:
+            return Response(
+                {"results": [], "count": 0, "next": None},
+                status=status.HTTP_200_OK,
+            )
+        sort = request.query_params.get("sort", "relevance")
+        if sort not in ("relevance", "rating", "newest"):
+            sort = "relevance"
+        try:
+            page = int(request.query_params.get("page", 1))
+        except (TypeError, ValueError):
+            page = 1
+        try:
+            page_size = int(request.query_params.get("page_size", 24))
+        except (TypeError, ValueError):
+            page_size = 24
+
+        videos, total, next_page = search_videos(q, sort=sort, page=page, page_size=page_size)
+        serializer = VideoSerializer(videos, many=True)
+        return Response({
+            "results": serializer.data,
+            "count": total,
+            "next": next_page,
+        })
+
+
+class SearchSuggestionsView(APIView):
+    """
+    GET /api/search/suggestions/?q=...&limit=8
+    Returns a short list of videos for typeahead.
+    """
+
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        q = (request.query_params.get("q") or "").strip()
+        if not q:
+            return Response([])
+        try:
+            limit = int(request.query_params.get("limit", 8))
+        except (TypeError, ValueError):
+            limit = 8
+        videos = suggestion_videos(q, limit=limit)
+        serializer = VideoSerializer(videos, many=True)
+        return Response(serializer.data)
