@@ -302,3 +302,179 @@
     width: 100%;
   }
 }
+
+.reviewModal {
+  width: 40vw;
+  height: auto;
+  padding: 40px 35px;
+}
+
+.reviewPopupContent {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.reviewVideoInfo {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.reviewThumbnail {
+  width: 160px;
+  height: 90px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.reviewTextInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.reviewChannel {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.reviewTitle {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.reviewRatingRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.reviewRatingLabel {
+  margin: 0;
+  font-weight: 600;
+}
+
+.reviewFormArea {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.reviewPrompt {
+  margin: 0;
+  font-size: 14px;
+}
+
+.reviewTextarea {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 140px;
+  resize: vertical;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  padding: 10px 12px;
+  font-family: "Inria Sans";
+  font-size: 14px;
+}
+
+.reviewActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.reviewCancelButton {
+  font-family: "Inria Sans";
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  padding: 8px 18px;
+  cursor: pointer;
+}
+
+.reviewPostButton {
+  font-family: "Inria Sans";
+  border-radius: 6px;
+  border: 1px solid #0F2A2B;
+  background-color: #0F2A2B;
+  color: #f4f4f4;
+  padding: 8px 20px;
+  cursor: pointer;
+}
+
+.descriptionModal {
+  width: 40vw;
+  height: auto;
+  padding: 40px 35px;
+}
+
+.descriptionPopupContent {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.descriptionTitle {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.descriptionStats {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.descriptionStat {
+  margin: 0;
+}
+
+.descriptionStatLabel {
+  font-weight: 600;
+}
+
+.descriptionBody {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.descriptionLabel {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.descriptionText {
+  max-height: 260px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .reviewModal,
+  .descriptionModal {
+    width: 80vw;
+    padding: 30px 20px;
+  }
+
+  .reviewVideoInfo {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .reviewRatingRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
