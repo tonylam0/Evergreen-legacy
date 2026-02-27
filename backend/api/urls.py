@@ -3,9 +3,12 @@ from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenRefreshView
 
 from .views import (
+    AccountSettingsView,
     CustomTokenObtainView,
+    DeleteAccountView,
     GlobalRankView,
     HomepageFeedView,
+    ProfileView,
     ReviewViewSet,
     SearchView,
     SearchSuggestionsView,
@@ -33,6 +36,10 @@ urlpatterns = [
     # Search
     path("search/", SearchView.as_view(), name="search"),
     path("search/suggestions/", SearchSuggestionsView.as_view(), name="search-suggestions"),
+
+    path("profile/", ProfileView.as_view(), name="profile"),
+    path("account/settings/", AccountSettingsView.as_view(), name="account-settings"),
+    path("account/delete/", DeleteAccountView.as_view(), name="account-delete"),
 
     # Review endpoints
     path("", include(router.urls)),

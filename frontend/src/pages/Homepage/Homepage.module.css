@@ -16,6 +16,23 @@
   gap: 40px;
 }
 
+.sentinel {
+  height: 1px;
+  width: 100%;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.loadMoreSkeletons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 75%;
+  margin: auto;
+  gap: 40px;
+  row-gap: 50px;
+  margin-top: 1rem;
+}
+
 .videoLink {
   width: 100%;
 }
@@ -82,10 +99,21 @@
   .videoSection {
     width: 80%;
   }
+
+  .loadMoreSkeletons {
+    width: 80%;
+  }
 }
 
 @media (max-width: 1024px) {
   .videoSection {
+    grid-template-columns: repeat(2, 1fr);
+    width: 85%;
+    gap: 30px;
+    row-gap: 40px;
+  }
+
+  .loadMoreSkeletons {
     grid-template-columns: repeat(2, 1fr);
     width: 85%;
     gap: 30px;
@@ -113,6 +141,12 @@
     row-gap: 35px;
   }
 
+  .loadMoreSkeletons {
+    width: 90%;
+    gap: 25px;
+    row-gap: 35px;
+  }
+
   .videoTitle {
     font-size: 1rem;
   }
@@ -131,6 +165,13 @@
     grid-template-columns: 1fr;
     width: 90%;
     padding: 5vh 0;
+    gap: 20px;
+    row-gap: 30px;
+  }
+
+  .loadMoreSkeletons {
+    grid-template-columns: 1fr;
+    width: 90%;
     gap: 20px;
     row-gap: 30px;
   }

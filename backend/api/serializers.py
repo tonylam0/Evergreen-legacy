@@ -7,9 +7,12 @@ from .models import CustomUser, EvergreenCollection, Review, Video
 # Validates incoming video submission data and converts it into/from JSON
 class VideoSerializer(serializers.ModelSerializer):
     average_rating = serializers.SerializerMethodField()
-    evergreen_score = serializers.FloatField(
-        source="evergreen_stats.global_evergreen_score", read_only=True
-    )
+    evergreen_score = serializers.SerializerMethodField()
+
+    def get_evergreen_score(self, obj):
+        if obj.evergreen_stats is None:
+            return None
+        return getattr(obj.evergreen_stats, 'global_evergreen_score', None)
     save_count = serializers.SerializerMethodField()
     review_count = serializers.SerializerMethodField()
     view_count = serializers.SerializerMethodField()
@@ -52,6 +55,21 @@ class ReviewSerializer(serializers.ModelSerializer):
     def get_upvote_count(self, obj):
         return obj.review_upvotes.count()
 
+
+class ProfileReviewSerializer(serializers.ModelSerializer):
+    """Review with video_id and video_title for profile top reviews."""
+    video_id = serializers.CharField(source='video.youtube_id', read_only=True)
+    video_title = serializers.CharField(source='video.title', read_only=True)
+    upvote_count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Review
+        fields = ['id', 'rating', 'review_text', 'created_at', 'video_id', 'video_title', 'upvote_count']
+
+    def get_upvote_count(self, obj):
+        return getattr(obj, 'upvote_count', obj.review_upvotes.count())
+
+
 class CustomRegisterSerializer(RegisterSerializer):
     def validate_email(self, value):
         email = value.lower()
@@ -87,3 +105,32 @@ class CustomLoginSerializer(serializers.Serializer):
 
         attrs['user'] = user
         return attrs
+
+
+class AccountSettingsSerializer(serializers.ModelSerializer):
+    """Read/write email, username, and notification/privacy preference booleans."""
+
+    class Meta:
+        model = CustomUser
+        fields = [
+            "email",
+            "username",
+            "notify_reply_to_review",
+            "weekly_digest",
+            "profile_private",
+            "hide_reviews_ratings",
+        ]
+
+    def validate_email(self, value):
+        value = value.lower().strip()
+        user = self.context["request"].user
+        if CustomUser.objects.filter(email=value).exclude(pk=user.pk).exists():
+            raise serializers.ValidationError("A user with this email already exists.")
+        return value
+
+    def validate_username(self, value):
+        value = value.strip()
+        user = self.context["request"].user
+        if CustomUser.objects.filter(username=value).exclude(pk=user.pk).exists():
+            raise serializers.ValidationError("A user with this username already exists.")
+        return value

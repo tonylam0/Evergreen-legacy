@@ -9,6 +9,13 @@ class CustomUser(AbstractUser):  # Allows users to bypass submission checking
     is_trusted_curator = models.BooleanField(default=False)
     email = models.EmailField(unique=True)
 
+    # Notification preferences
+    notify_reply_to_review = models.BooleanField(default=False)
+    weekly_digest = models.BooleanField(default=False)
+    # Privacy settings
+    profile_private = models.BooleanField(default=False)
+    hide_reviews_ratings = models.BooleanField(default=False)
+
     def __str__(self):
         return self.username
     

@@ -1,0 +1,314 @@
+.container {
+  font-family: "Inria Sans", sans-serif;
+  background-color: #f4f4f4;
+  width: 100%;
+  min-height: 100dvh;
+  margin: 0;
+}
+
+.loading,
+.error {
+  padding: 2rem;
+  text-align: center;
+  color: #333;
+}
+
+.error {
+  color: #c00;
+}
+
+.main {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.pageTitle {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.section {
+  margin-bottom: 2.5rem;
+}
+
+.profileRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.avatarPlaceholder {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  background: #1a1a1a;
+  color: #f4f4f4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.profileLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-top: 0.5rem;
+}
+
+.linkButton {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: #4b544b;
+  cursor: pointer;
+  text-align: left;
+  text-decoration: underline;
+}
+
+.linkButton:hover {
+  color: #333;
+}
+
+.fieldRow {
+  margin-bottom: 1.25rem;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.inputWithButton {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.input {
+  box-sizing: border-box;
+  border: 1px solid #4b544b;
+  background-color: rgba(233, 233, 233, 0.75);
+  font-size: 15px;
+  font-family: "Inria Sans", sans-serif;
+  padding: 10px;
+  flex: 1;
+  min-width: 180px;
+}
+
+.input:focus {
+  outline: none;
+}
+
+.passwordWrap {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 180px;
+  position: relative;
+}
+
+.passwordWrap .input {
+  flex: 1;
+  padding-right: 40px;
+}
+
+.eyeButton {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+}
+
+.eyeButton svg {
+  width: 20px;
+  height: 20px;
+}
+
+.changeButton {
+  background-color: #2d4a3e;
+  color: #fff;
+  border: none;
+  padding: 10px 1.25rem;
+  font-family: "Inria Sans", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.changeButton:hover:not(:disabled) {
+  background-color: #243d32;
+}
+
+.changeButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.passwordForm {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+}
+
+.passwordForm .label {
+  margin-top: 0.75rem;
+}
+
+.passwordForm .label:first-child {
+  margin-top: 0;
+}
+
+.passwordForm .input {
+  width: 100%;
+  min-width: 0;
+}
+
+.inlineError {
+  margin: 0.5rem 0 0 0;
+  color: #c00;
+  font-size: 0.9rem;
+}
+
+.passwordFormActions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.cancelButton {
+  background: transparent;
+  color: #333;
+  border: 1px solid #a0a0a0;
+  padding: 10px 1.25rem;
+  font-family: "Inria Sans", sans-serif;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.cancelButton:hover {
+  background: #f0f0f0;
+}
+
+.signOutWrap {
+  margin-top: 1.5rem;
+}
+
+.signOutButton {
+  background-color: #2d4a3e;
+  color: #fff;
+  border: none;
+  padding: 10px 1.5rem;
+  font-family: "Inria Sans", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.signOutButton:hover {
+  background-color: #243d32;
+}
+
+.sectionTitle {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.subsectionTitle {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.toggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.toggleLabel {
+  flex: 1;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.deleteSection {
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid #c0c0c0;
+}
+
+.deleteTitle {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #b03030;
+}
+
+.deleteWarning {
+  margin: 0 0 1rem 0;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.deleteSection .label {
+  margin-bottom: 0.35rem;
+}
+
+.deleteSection .input {
+  width: 100%;
+  max-width: 280px;
+  min-width: 0;
+  margin-bottom: 1rem;
+}
+
+.deleteButton {
+  background-color: #b03030;
+  color: #fff;
+  border: none;
+  padding: 10px 1.5rem;
+  font-family: "Inria Sans", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.deleteButton:hover:not(:disabled) {
+  background-color: #9a2828;
+}
+
+.deleteButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}

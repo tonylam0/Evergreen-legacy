@@ -9,6 +9,8 @@ import SignUp from './pages/SignUp/SignUp.jsx'
 import Login from './pages/Login/Login.jsx'
 import VideoPlayer from './components/VideoPlayer/VideoPlayer.jsx'
 import PrivateRoute from './components/PrivateRoute.jsx'
+import Profile from './pages/Profile/Profile.jsx'
+import ProfileEdit from './pages/ProfileEdit/ProfileEdit.jsx'
 
 function App() {
   const element = useRoutes([
@@ -25,6 +27,8 @@ function App() {
     {
       element: <PrivateRoute />,
       children: [
+        { path: 'profile', element: <Profile /> },
+        { path: 'profile/edit', element: <ProfileEdit /> },
       ]
     }
   ])

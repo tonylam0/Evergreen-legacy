@@ -277,6 +277,12 @@ const Header = () => {
               </Link>
 
               {user ? (
+                <Link to={"/profile"} reloadDocument>
+                  <h2 className={styles.tabName}>Profile</h2>
+                </Link>
+              ) : null}
+
+              {user ? (
                 <h2 className={styles.tabName} onClick={logout}>Log out</h2>
               ) : (
                 <div className={styles.authTabs}>

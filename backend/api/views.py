@@ -1,6 +1,10 @@
+import hashlib
+import random
+import time
 from datetime import timedelta
 
 from django.conf import settings
+from django.db.models import Avg, Count
 from django.shortcuts import get_object_or_404
 from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import api_view
@@ -15,7 +19,12 @@ from dj_rest_auth.registration.views import SocialLoginView
 from .models import EvergreenCollection, Review, Video, VideoEvergreenStats, VideoWatchEvent
 from .ranking import apply_user_affinity
 from .search_utils import search_videos, suggestion_videos
-from .serializers import ReviewSerializer, VideoSerializer
+from .serializers import (
+    AccountSettingsSerializer,
+    ProfileReviewSerializer,
+    ReviewSerializer,
+    VideoSerializer,
+)
 from .utils import extract_video_id, parse_duration
 import requests
 
@@ -177,6 +186,89 @@ class ReviewViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user)
 
 
+class ProfileView(APIView):
+    """GET current user profile: stats, submitted_videos, top_reviews."""
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        reviews_qs = Review.objects.filter(author=user)
+
+        # Stats
+        rating_agg = reviews_qs.aggregate(avg=Avg('rating'))
+        average_rating = rating_agg['avg']
+        if average_rating is not None:
+            average_rating = round(float(average_rating), 1)
+        stats = {
+            'average_rating': average_rating,
+            'rating_count': reviews_qs.count(),
+            'review_text_count': reviews_qs.exclude(review_text='').count(),
+            'submitted_video_count': user.videos.count(),
+        }
+
+        # Submitted videos (approved only)
+        submitted_videos = Video.objects.filter(
+            submitted_by=user, is_approved=True
+        ).select_related('evergreen_stats')
+        submitted_data = VideoSerializer(submitted_videos, many=True).data
+
+        # Top reviews (with text, by upvote count), limit 10
+        top_reviews_qs = (
+            reviews_qs.exclude(review_text='')
+            .annotate(upvote_count=Count('review_upvotes'))
+            .select_related('video')
+            .order_by('-upvote_count')[:10]
+        )
+        top_reviews_data = ProfileReviewSerializer(top_reviews_qs, many=True).data
+
+        # Video IDs the user has reviewed (for "read review" links on submitted videos)
+        reviewed_video_ids = list(
+            reviews_qs.values_list('video__youtube_id', flat=True)
+        )
+
+        return Response({
+            'username': user.username,
+            'date_joined': user.date_joined.isoformat() if user.date_joined else None,
+            'stats': stats,
+            'submitted_videos': submitted_data,
+            'top_reviews': top_reviews_data,
+            'reviewed_video_ids': reviewed_video_ids,
+        })
+
+
+class AccountSettingsView(APIView):
+    """GET/PATCH current user account settings (email, username, preferences)."""
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        serializer = AccountSettingsSerializer(request.user)
+        return Response(serializer.data)
+
+    def patch(self, request):
+        serializer = AccountSettingsSerializer(
+            request.user, data=request.data, partial=True
+        )
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.save()
+        return Response(serializer.data)
+
+
+class DeleteAccountView(APIView):
+    """POST with { username } to delete current user; requires username to match."""
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        entered = (request.data.get("username") or "").strip()
+        if entered != request.user.username:
+            return Response(
+                {"error": "Username does not match."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        request.user.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
 class CustomTokenObtainView(TokenRefreshView):
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
@@ -268,67 +360,123 @@ class UserRankView(APIView):
 
 class HomepageFeedView(APIView):
     """
-    High-level homepage feed composed from Evergreen-ranked videos.
-
-    This view returns sections but keeps the response structure simple so
-    the frontend can iterate quickly.
+    Paginated homepage feed: single mixed list (continue watching, canon + new
+    & emerging interleaved, then remaining by score). Feed order is shuffled with
+    a per-request seed (different on refresh, different per user). Returns
+    { results, next, seed }. Client sends seed for page >= 2 to keep order stable.
     """
 
     permission_classes = [permissions.AllowAny]
 
     def get(self, request):
-        user = request.user if request.user.is_authenticated else None
-
-        # Canon: top globally-ranked approved videos.
-        canon_qs = (
-            Video.objects.filter(is_approved=True, evergreen_stats__isnull=False)
-            .select_related("evergreen_stats")
-            .order_by("-evergreen_stats__global_evergreen_score")[:20]
-        )
-
-        # New & emerging: approved videos newer than 90 days, ordered by Evergreen score.
-        cutoff_delta = timedelta(days=90)
         from django.utils import timezone
 
+        user = request.user if request.user.is_authenticated else None
+        try:
+            page = int(request.query_params.get("page", 1))
+        except (TypeError, ValueError):
+            page = 1
+        try:
+            page_size = int(request.query_params.get("page_size", 24))
+        except (TypeError, ValueError):
+            page_size = 24
+        page_size = min(max(1, page_size), 50)
+        page = max(1, page)
+
+        feed_videos = []
+        seen_ids = set()
+        feed_cap = 500
+
+        # 1. Continue watching (for authenticated user), order by started_at desc.
+        if user is not None:
+            partial_events = (
+                VideoWatchEvent.objects.filter(user=user, completed=False)
+                .select_related("video__evergreen_stats")
+                .order_by("-started_at")
+            )
+            for e in partial_events:
+                if len(feed_videos) >= 10:
+                    break
+                v = e.video
+                if v.id in seen_ids or not v.is_approved or not getattr(v, "evergreen_stats", None):
+                    continue
+                seen_ids.add(v.id)
+                feed_videos.append(v)
+
+        # 2. Canon and new & emerging: fetch then interleave (round-robin).
+        cutoff_delta = timedelta(days=90)
         now = timezone.now()
-        new_qs = (
+        canon_list = list(
+            Video.objects.filter(is_approved=True, evergreen_stats__isnull=False)
+            .select_related("evergreen_stats")
+            .order_by("-evergreen_stats__global_evergreen_score")[:50]
+        )
+        new_list = list(
             Video.objects.filter(
                 is_approved=True,
                 evergreen_stats__isnull=False,
                 publish_date__gte=now - cutoff_delta,
             )
             .select_related("evergreen_stats")
-            .order_by("-evergreen_stats__global_evergreen_score")[:10]
+            .order_by("-evergreen_stats__global_evergreen_score")[:30]
         )
+        max_len = max(len(canon_list), len(new_list))
+        for i in range(max_len):
+            if len(feed_videos) >= feed_cap:
+                break
+            if i < len(canon_list) and canon_list[i].id not in seen_ids:
+                seen_ids.add(canon_list[i].id)
+                feed_videos.append(canon_list[i])
+            if len(feed_videos) >= feed_cap:
+                break
+            if i < len(new_list) and new_list[i].id not in seen_ids:
+                seen_ids.add(new_list[i].id)
+                feed_videos.append(new_list[i])
 
-        # Continue watching: partially watched videos for this user.
-        continue_qs = Video.objects.none()
-        if user is not None:
-            # Sessions where the user watched but did not mark completed.
-            partial_events = (
-                VideoWatchEvent.objects.filter(user=user, completed=False)
-                .select_related("video")
-                .order_by("-started_at")
+        # 3. Remaining approved by score, cap total feed size.
+        remaining = (
+            Video.objects.filter(
+                is_approved=True,
+                evergreen_stats__isnull=False,
             )
-            video_ids = list(
-                {
-                    e.video_id
-                    for e in partial_events
-                    if e.video.is_approved and hasattr(e.video, "evergreen_stats")
-                }
-            )[:10]
-            continue_qs = (
-                Video.objects.filter(id__in=video_ids)
-                .select_related("evergreen_stats")
-            )
+            .exclude(id__in=seen_ids)
+            .select_related("evergreen_stats")
+            .order_by("-evergreen_stats__global_evergreen_score")[: feed_cap - len(feed_videos)]
+        )
+        for v in remaining:
+            feed_videos.append(v)
 
-        data = {
-            "canon": VideoSerializer(canon_qs, many=True).data,
-            "new_and_emerging": VideoSerializer(new_qs, many=True).data,
-            "continue_watching": VideoSerializer(continue_qs, many=True).data,
-        }
+        # Shuffle so feed changes on refresh and differs per user; use seed for stable pagination.
+        seed_param = request.query_params.get("seed")
+        if seed_param is not None:
+            try:
+                seed = int(seed_param)
+            except (TypeError, ValueError):
+                seed = None
+        else:
+            seed = None
 
-        return Response(data)
+        if seed is None and page == 1:
+            user_id = getattr(user, "id", None) if user else None
+            ident = str(user_id) if user_id is not None else (request.META.get("REMOTE_ADDR") or "anon")
+            seed_input = f"{ident}-{time.time()}-{random.random()}"
+            seed = int(hashlib.sha256(seed_input.encode()).hexdigest()[:8], 16)
+
+        if seed is not None:
+            rng = random.Random(seed)
+            rng.shuffle(feed_videos)
+
+        total = len(feed_videos)
+        start = (page - 1) * page_size
+        end = start + page_size
+        page_videos = feed_videos[start:end]
+        next_page = page + 1 if end < total else None
+
+        serializer = VideoSerializer(page_videos, many=True)
+        payload = {"results": serializer.data, "next": next_page}
+        if seed is not None:
+            payload["seed"] = seed
+        return Response(payload)
 
 
 class SearchView(APIView):

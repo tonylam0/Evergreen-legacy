@@ -1,22 +1,67 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styles from './Homepage.module.css'
 import Header from '../../components/Header/Header.jsx'
+import VideoCardSkeleton from '../../components/VideoCardSkeleton/VideoCardSkeleton.jsx'
 import Star from '../../assets/star.svg?react'
 import api from '../../api/api.js'
 
-function Homepage() {
-  const [feed, setFeed] = useState(null)
+const PAGE_SIZE = 24
+const SKELETON_COUNT = 12
 
-  useEffect(() => {
-    api.get('api/feed/homepage/')
-      .then(response => {
-        setFeed(response.data)
+function Homepage() {
+  const [results, setResults] = useState([])
+  const [nextPage, setNextPage] = useState(null)
+  const [feedSeed, setFeedSeed] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [loadingMore, setLoadingMore] = useState(false)
+  const sentinelRef = useRef(null)
+
+  const loadPage = useCallback((page, append = false, seedForPagination = null) => {
+    const isFirst = page === 1
+    if (isFirst) setLoading(true)
+    else setLoadingMore(true)
+
+    const params = { page, page_size: PAGE_SIZE }
+    if (page > 1 && seedForPagination != null) params.seed = seedForPagination
+
+    api.get('api/feed/homepage/', { params })
+      .then((res) => {
+        const list = res.data.results || []
+        const next = res.data.next ?? null
+        if (res.data.seed != null) setFeedSeed(res.data.seed)
+        setNextPage(next)
+        setResults((prev) => (append ? [...prev, ...list] : list))
       })
-      .catch(error => {
-        console.log(error.response?.data || error)
+      .catch(() => {
+        setNextPage(null)
+        setResults((prev) => (append ? prev : []))
+      })
+      .finally(() => {
+        setLoading(false)
+        setLoadingMore(false)
       })
   }, [])
+
+  useEffect(() => {
+    loadPage(1, false)
+  }, [loadPage])
+
+  useEffect(() => {
+    const sentinel = sentinelRef.current
+    if (!sentinel) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries
+        if (!entry?.isIntersecting || loading || loadingMore || !nextPage) return
+        loadPage(nextPage, true, feedSeed)
+      },
+      { rootMargin: '200px', threshold: 0 }
+    )
+    observer.observe(sentinel)
+    return () => observer.disconnect()
+  }, [loading, loadingMore, nextPage, feedSeed, loadPage])
 
   const renderVideoCard = (video) => (
     <Link to={`/video/${video.youtube_id}`} className={styles.videoLink} key={video.id}>
@@ -36,24 +81,32 @@ function Homepage() {
     </Link>
   )
 
-  const canon = feed?.canon || []
-  const newAndEmerging = feed?.new_and_emerging || []
+  const showSkeletons = loading && results.length === 0
 
   return (
     <>
       <div className={styles.container}>
         <Header />
 
-        <div className={styles.videoSection}>
-          {canon.map(renderVideoCard)}
-        </div>
-
-        {newAndEmerging.length > 0 && (
+        {showSkeletons ? (
+          <div className={styles.videoSection}>
+            {Array.from({ length: SKELETON_COUNT }, (_, i) => (
+              <VideoCardSkeleton key={i} />
+            ))}
+          </div>
+        ) : (
           <>
-            <h2 className={styles.sectionTitle}>New &amp; emerging</h2>
             <div className={styles.videoSection}>
-              {newAndEmerging.map(renderVideoCard)}
+              {results.map(renderVideoCard)}
             </div>
+            {loadingMore && (
+              <div className={styles.loadMoreSkeletons}>
+                {Array.from({ length: 6 }, (_, i) => (
+                  <VideoCardSkeleton key={`more-${i}`} />
+                ))}
+              </div>
+            )}
+            <div ref={sentinelRef} className={styles.sentinel} aria-hidden />
           </>
         )}
       </div>
